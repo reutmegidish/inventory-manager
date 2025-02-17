@@ -1,13 +1,16 @@
-import React from '@mui/material'
-import { Box, Container, Alert, Typography } from '@mui/material'
+import React from "@mui/material";
+import { Box, Container, Alert, Typography } from "@mui/material";
 
-import { DashboardProps } from './Dashboard.interface'
-import { dashboardStyles } from './Dashboard.styles'
-import { DashboardHeader } from './components/DashboardHeader/DashboardHeader'
-import { DashboardFilters } from './components/DashboardFilters/DashboardFilters'
-import { DashboardTable } from './components/DashboardTable'
+import { DashboardProps } from "./Dashboard.interface";
+import { dashboardStyles } from "./Dashboard.styles";
+import { DashboardHeader } from "./components/DashboardHeader/DashboardHeader";
+import { DashboardFilters } from "./components/DashboardFilters/DashboardFilters";
+import { DashboardTable } from "./components/DashboardTable";
+import { FC } from "react";
+import { alertStyles } from "./commonStyle";
 
-export const Dashboard = <T extends Record<string, any>>({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const Dashboard: FC<DashboardProps<any>> = ({
   title,
   titleIcon,
   actionButton,
@@ -29,17 +32,6 @@ export const Dashboard = <T extends Record<string, any>>({
   order,
   onSort,
   totalItems,
-}: DashboardProps<T> & {
-  searchQuery: string
-  onSearchChange: (value: string) => void
-  roleFilter: string
-  onRoleFilterChange: (value: string) => void
-  statusFilter: string
-  onStatusFilterChange: (value: string) => void
-  orderBy: keyof T
-  order: 'asc' | 'desc'
-  onSort: (property: keyof T) => void
-  totalItems: number
 }) => {
   return (
     <Box sx={dashboardStyles.wrapper}>
@@ -63,11 +55,11 @@ export const Dashboard = <T extends Record<string, any>>({
             onSearchChange={onSearchChange}
             searchPlaceholder={searchPlaceholder}
             roleFilter={roleFilter}
-            onRoleFilterChange={onRoleFilterChange}
+            onRoleFilterChange={onRoleFilterChange as (a: string) => void}
             roleOptions={filterOptions.role.options}
             roleLabel={filterOptions.role.label}
             statusFilter={statusFilter}
-            onStatusFilterChange={onStatusFilterChange}
+            onStatusFilterChange={onStatusFilterChange as (a: string) => void}
             statusOptions={filterOptions.status.options}
             statusLabel={filterOptions.status.label}
           />
@@ -90,5 +82,5 @@ export const Dashboard = <T extends Record<string, any>>({
         </Box>
       </Container>
     </Box>
-  )
-}
+  );
+};

@@ -7,6 +7,8 @@ import {
 } from '../components/UserManagement/UserManagement.interface'
 import { fetchUsers } from '../serviecs/userService'
 
+export type StatusType = 'all' | 'active' | 'inactive';
+
 export const useUserManagement = () => {
   const [users, setUsers] = useState<IUser[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -15,15 +17,14 @@ export const useUserManagement = () => {
   const [orderBy, setOrderBy] = useState<OrderBy>('name')
   const [searchQuery, setSearchQuery] = useState('')
   const [roleFilter, setRoleFilter] = useState<FilterRole>('all')
-  const [statusFilter, setStatusFilter] = useState<
-    'all' | 'active' | 'inactive'
-  >('all')
+  const [statusFilter, setStatusFilter] = useState<StatusType>('all')
 
   const loadUsers = async () => {
     try {
       const fetchedUsers = await fetchUsers()
       setUsers(fetchedUsers)
       setError('')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setError(error.message)
     } finally {
