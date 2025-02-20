@@ -9,8 +9,9 @@ import Login from './features/Login/Login'
 import DynamicDashboardLayout from './layout/DashboardLayout/components/DynamicDasboardLayout/DynamicDashboardLayout'
 import { adminSidebarItems } from './layout/DashboardLayout/components/DynamicDasboardLayout/constants/adminSidebarItems'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
-import UserManagement from './components/UserManagement'
 import { AddUserForm } from './components/AddUserForm/AddUserForm'
+import UserTable from './features/Table/UserTable/UserTable'
+import CategoriesTable from './features/Table/CategoriesTable/CategoriesTable'
 
 function App() {
   return (
@@ -28,9 +29,19 @@ function App() {
           }
         >
           <Route index element={<Navigate to="users" replace />} />
-          <Route path="users" element={<UserManagement />} />
+          <Route path="users" element={<UserTable />} />
           <Route path="users/add" element={<AddUserForm />} />
           <Route path="users/edit/:id" element={<AddUserForm />} />
+
+          <Route index element={<Navigate to="categories" replace />} />
+          <Route path="categories" element={<CategoriesTable />} />
+          {/* <Route path="categories/add" element={<AddCategoriesForm />} />
+          <Route path="categories/edit/:id" element={<AddCategoriesForm />} /> */}
+
+          <Route index element={<Navigate to="store" replace />} />
+          {/* <Route path="store" element={<StoreTable />} /> */}
+          {/* <Route path="categories/add" element={<AddStoreForm />} />
+          <Route path="categories/edit/:id" element={<AddStoreForm />} /> */}
         </Route>
       </Routes>
     </Router>
