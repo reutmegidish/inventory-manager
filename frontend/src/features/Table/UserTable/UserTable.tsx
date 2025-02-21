@@ -7,11 +7,15 @@ import UsersHeader from '../../DashboardHeader/UsersHeader'
 
 const UserTable = () => {
   const { users, loading, error } = useUserTable()
+  const [user, setUser] = React.useState(null)
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: {error}</div>
-
-  return (
+  return loading ? (
+    <div>Loading...</div>
+  ) : error ? (
+    <div>Error: {error}</div>
+  ) : user ? (
+    <>update</>
+  ) : (
     <>
       <UsersHeader />
       <DataTable columns={columns} rows={getRows(users)} />

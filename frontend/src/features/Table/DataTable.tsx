@@ -1,14 +1,19 @@
 import * as React from 'react'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Paper from '@mui/material/Paper'
 import { Box } from '@mui/material'
 import { tableStyles } from '../dashboard/styles/tableStyles'
 
-export default function DataTable({ rows, columns }) {
+interface DataTableProps<T> {
+  rows: T[]
+  columns: GridColDef[]
+}
+
+export default function DataTable<T>({ rows, columns }: DataTableProps<T>) {
   return (
     <Box sx={tableStyles.container}>
       <Paper sx={tableStyles.paper}>
-        {columns && columns.length > 0 && (
+        {columns.length && (
           <DataGrid
             columns={columns}
             rows={rows}

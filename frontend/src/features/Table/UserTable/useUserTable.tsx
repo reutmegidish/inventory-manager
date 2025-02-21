@@ -18,6 +18,7 @@ export const useUserTable = () => {
   const [users, setUsers] = useState<IUser[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>('')
+  const [isInit, setIsInit] = useState<boolean>(false)
 
   const loadUsers = async () => {
     try {
@@ -33,7 +34,13 @@ export const useUserTable = () => {
   }
 
   useEffect(() => {
-    loadUsers()
+    if (isInit) {
+      loadUsers()
+    }
+  }, [isInit])
+
+  useEffect(() => {
+    setIsInit(true)
   }, [])
 
   return {
