@@ -16,7 +16,7 @@ const getRowActions = (user: any) => [
     icon: <EditIcon fontSize="small" />,
     tooltip: 'Edit User',
     onClick: () => {
-      console.log('Edit user:', user._id)
+      console.log('Edit user:', user)
     },
     sx: tableStyles.actionButton,
   },
@@ -75,7 +75,7 @@ export const columns: GridColDef[] = [
     flex: 1,
     renderCell: (params) => (
       <Box>
-        {getRowActions(params.row).map((action, index) => (
+        {getRowActions(params).map((action, index) => (
           <Tooltip key={index} title={action.tooltip}>
             <IconButton onClick={action.onClick} size="small" sx={action.sx}>
               {action.icon}
