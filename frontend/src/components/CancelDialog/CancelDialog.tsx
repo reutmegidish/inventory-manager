@@ -6,7 +6,12 @@ import {
   DialogActions,
   Button,
 } from '@mui/material'
-import { CancelDialogProps } from './user.interface'
+
+export interface CancelDialogProps {
+  open: boolean
+  onClose: () => void
+  onConfirmCancel: () => void
+}
 
 const CancelDialog: React.FC<CancelDialogProps> = ({
   open,

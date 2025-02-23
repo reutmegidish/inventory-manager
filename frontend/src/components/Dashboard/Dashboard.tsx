@@ -1,13 +1,13 @@
-import React from "@mui/material";
-import { Box, Container, Alert, Typography } from "@mui/material";
+import React from '@mui/material'
+import { Box, Container, Alert, Typography } from '@mui/material'
 
-import { DashboardProps } from "./Dashboard.interface";
-import { dashboardStyles } from "./Dashboard.styles";
-import { DashboardHeader } from "./components/DashboardHeader/DashboardHeader";
-import { DashboardFilters } from "./components/DashboardFilters/DashboardFilters";
-import { DashboardTable } from "./components/DashboardTable";
-import { FC } from "react";
-import { alertStyles } from "./commonStyle";
+import { DashboardProps } from './Dashboard.interface'
+import { dashboardStyles } from './Dashboard.styles'
+import { DashboardHeader } from './components/DashboardHeader/DashboardHeader'
+import { DashboardFilters } from './components/DashboardFilters/DashboardFilters'
+import { DashboardTable } from './components/DashboardTable'
+import { FC } from 'react'
+import { alertStyles } from './commonStyle'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Dashboard: FC<DashboardProps<any>> = ({
@@ -82,5 +82,5 @@ export const Dashboard: FC<DashboardProps<any>> = ({
         </Box>
       </Container>
     </Box>
-  );
-};
+  )
+}

@@ -1,9 +1,10 @@
 import React from 'react'
 import DataTable from '../DataTable'
-
+import { Group as GroupIcon } from '@mui/icons-material'
 import { useUserTable } from './useUserTable'
 import { columns, getRows } from './userTableConfig'
-import UsersHeader from '../../DashboardHeader/UsersHeader'
+import DashboardHeader from '../../DashboardHeader/DashboardHeader'
+import { fetchUsers } from '../../../serviecs/userService'
 
 const UserTable = () => {
   const { users, loading, error } = useUserTable()
@@ -17,7 +18,11 @@ const UserTable = () => {
     <>update</>
   ) : (
     <>
-      <UsersHeader />
+      <DashboardHeader
+        title="User Management"
+        icon={<GroupIcon />}
+        onRefresh={fetchUsers}
+      />
       <DataTable columns={columns} rows={getRows(users)} />
     </>
   )

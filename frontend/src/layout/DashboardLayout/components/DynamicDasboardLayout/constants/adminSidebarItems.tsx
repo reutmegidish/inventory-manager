@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   People as PeopleIcon,
   Category as CategoryIcon,
@@ -12,5 +13,5 @@ export const adminSidebarItems: MenuItem[] = [
     icon: <CategoryIcon />,
     path: '/admin-dashboard/categories',
   },
-  { text: 'Stores', icon: <StoreIcon />, path: '/admin-dashboard/stores' },
+  { text: 'Stores', icon: <StoreIcon />, path: '/admin-dashboard/store' },
 ]

@@ -6,7 +6,7 @@ import {
   PowerSettingsNew as PowerIcon,
 } from '@mui/icons-material'
 import { tableStyles } from '../../dashboard/styles/tableStyles'
-import { CategoryRowActions, ICategory } from './CategoriesRowActions'
+import { IStore, StoreRowActions } from './StoreRowActions'
 
 interface RowAction {
   icon: React.ReactNode
@@ -17,25 +17,25 @@ interface RowAction {
 }
 
 export const getRowActions = (
-  category: ICategory,
-  navigate: (path: string, options?: { state: ICategory }) => void
+  store: IStore,
+  navigate: (path: string, options?: { state: IStore }) => void
 ): RowAction[] => [
   {
     icon: <EditIcon fontSize="small" />,
-    tooltip: 'Edit Category',
+    tooltip: 'Edit Store',
     onClick: () => {
-      console.log('Edit Category:11', category.id)
-      navigate(`edit/${category.id}`, { state: category })
+      console.log('Edit Store:11', store.id)
+      navigate(`edit/${store.id}`, { state: store })
     },
     sx: tableStyles.actionButton,
   },
   {
     icon: <PowerIcon fontSize="small" />,
-    tooltip: category.active ? 'Deactivate Category' : 'Activate Category',
+    tooltip: store.active ? 'Deactivate Store' : 'Activate Store',
     onClick: () => {
-      console.log('Toggle Category status:', category.id)
+      console.log('Toggle Store status:', store.id)
     },
-    sx: tableStyles.statusButton(category.active),
+    sx: tableStyles.statusButton(store.active),
   },
 ]
 
@@ -45,7 +45,7 @@ export const columns: GridColDef[] = [
     headerName: 'Name',
     flex: 1,
   },
-  { field: 'mainCategory', headerName: 'Main Category', flex: 2 },
+  { field: 'mainStore', headerName: 'Main Store', flex: 2 },
   {
     field: 'active',
     headerName: 'Active',
@@ -62,16 +62,16 @@ export const columns: GridColDef[] = [
     field: 'action',
     headerName: 'Action',
     flex: 1,
-    renderCell: (params) => <CategoryRowActions category={params.row} />,
+    renderCell: (params) => <StoreRowActions Store={params.row} />,
   },
 ]
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getRows = (categories: any[]) => {
-  return categories.map((category) => ({
-    id: category._id,
-    name: category.name,
-    description: category.description,
-    active: category.active,
+export const getRows = (store: any[]) => {
+  return store.map((st) => ({
+    id: st._id,
+    name: st.name,
+    description: st.description,
+    active: st.active,
   }))
 }

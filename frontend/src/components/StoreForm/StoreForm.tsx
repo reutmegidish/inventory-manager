@@ -8,47 +8,44 @@ import {
   Alert,
   Paper,
 } from '@mui/material'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useStyles } from './AddUserForm.styles'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useFormData } from './useFormData'
-import { createUser, updateUser } from './userService'
-import RoleSelect from './RoleSelect'
+import { createStore, updateStore } from './storeService'
 import { initialFormData } from './formData.constants'
-import CancelDialog from './CancelDialog'
+import { useStyles } from '../AddUserForm/UserForm.styles' // משתמש באותו עיצוב
+import CancelDialog from '../CancelDialog/CancelDialog'
 
-export const AddUserForm: React.FC = () => {
+export const StoreForm: React.FC = () => {
   const styles = useStyles()
   const navigate = useNavigate()
   const location = useLocation()
+  const { id } = useParams<{ id: string }>()
 
-  const userToEdit = location.state?.user
-  const isEditMode = Boolean(userToEdit)
+  const storeToEdit = location.state
+  const isEditMode = Boolean(storeToEdit)
 
-  const { formData, handleChange, showBuyerFields } = useFormData(
-    userToEdit || initialFormData
-  )
+  const { formData, handleChange } = useFormData(storeToEdit || initialFormData)
 
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [openCancelDialog, setOpenCancelDialog] = useState(false)
 
   const handleCancel = () => setOpenCancelDialog(true)
-  const handleConfirmCancel = () => navigate('/admin-dashboard/users')
+  const handleConfirmCancel = () => navigate('/admin-dashboard/stores')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       if (isEditMode) {
-        await updateUser(userToEdit._id, formData)
-        setSuccess('User updated successfully')
+        await updateStore(storeToEdit._id, formData)
+        setSuccess('Store updated successfully')
       } else {
-        console.log('formData: ', formData)
-        await createUser(formData)
-        setSuccess('User created successfully')
-        setTimeout(() => navigate('/admin-dashboard/users'), 1500)
+        await createStore(formData)
+        setSuccess('Store created successfully')
       }
+      setTimeout(() => navigate('/admin-dashboard/stores'), 1500)
     } catch {
-      setError('Failed to create user:')
+      setError('Failed to save store')
     }
   }
 
@@ -68,48 +65,21 @@ export const AddUserForm: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
-            label="Email"
-            value={formData.email}
-            onChange={handleChange('email')}
+            label="Name"
+            value={formData.name}
+            onChange={handleChange('name')}
             sx={styles.textField}
             required
           />
 
           <TextField
             fullWidth
-            label="Password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange('password')}
+            label="Address"
+            value={formData.address}
+            onChange={handleChange('address')}
             sx={styles.textField}
             required
           />
-          <RoleSelect
-            value={formData.role}
-            onChange={handleChange('role')}
-            required
-          />
-
-          {showBuyerFields && (
-            <>
-              <TextField
-                fullWidth
-                label="Address"
-                value={formData.address}
-                onChange={handleChange('address')}
-                sx={styles.textField}
-                required
-              />
-              <TextField
-                fullWidth
-                label="Phone"
-                value={formData.phone}
-                onChange={handleChange('phone')}
-                sx={styles.textField}
-                required
-              />
-            </>
-          )}
 
           <FormControlLabel
             control={
