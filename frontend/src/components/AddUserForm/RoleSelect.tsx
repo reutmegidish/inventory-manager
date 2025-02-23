@@ -1,6 +1,6 @@
+import React from 'react'
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
-
-import { useStyles } from './AddUserForm.styles'
+import { useStyles } from './UserForm.styles'
 import { roles } from './formData.constants'
 import { RoleSelectProps } from './user.interface'
 

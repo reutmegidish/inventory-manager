@@ -8,20 +8,26 @@ import {
   Alert,
   Paper,
 } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import { useStyles } from './AddUserForm.styles'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useFormData } from './useFormData'
-import { createUser } from './userService'
+import { createUser, updateUser } from './userService'
 import RoleSelect from './RoleSelect'
 import { initialFormData } from './formData.constants'
-import CancelDialog from './CancelDialog'
+import { useStyles } from './UserForm.styles'
+import CancelDialog from '../CancelDialog/CancelDialog'
 
-export const AddUserForm: React.FC = () => {
+export const UserForm: React.FC = () => {
   const styles = useStyles()
   const navigate = useNavigate()
+  const location = useLocation()
+  const { id } = useParams<{ id: string }>()
 
-  const { formData, handleChange, showBuyerFields } =
-    useFormData(initialFormData)
+  const userToEdit = location.state
+  const isEditMode = Boolean(userToEdit)
+
+  const { formData, handleChange, showBuyerFields } = useFormData(
+    userToEdit || initialFormData
+  )
 
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -33,9 +39,13 @@ export const AddUserForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      console.log('formData: ', formData)
-      await createUser(formData)
-      setSuccess('User created successfully')
+      if (isEditMode) {
+        await updateUser(userToEdit._id, formData)
+        setSuccess('User updated successfully')
+      } else {
+        await createUser(formData)
+        setSuccess('User created successfully')
+      }
       setTimeout(() => navigate('/admin-dashboard/users'), 1500)
     } catch {
       setError('Failed to create user:')
@@ -64,6 +74,7 @@ export const AddUserForm: React.FC = () => {
             sx={styles.textField}
             required
           />
+
           <TextField
             fullWidth
             label="Password"

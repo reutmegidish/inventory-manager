@@ -1,10 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { User } from './user.interface'
 import { SelectChangeEvent } from '@mui/material'
 
 export const useFormData = (initialData: User) => {
   const [formData, setFormData] = useState(initialData)
   const [showBuyerFields, setShowBuyerFields] = useState(false)
+
+  useEffect(() => {
+    if (formData.role === 'buyer') {
+      setShowBuyerFields(true)
+    } else {
+      setShowBuyerFields(false)
+    }
+  }, [])
 
   const handleChange =
     (field: string) =>

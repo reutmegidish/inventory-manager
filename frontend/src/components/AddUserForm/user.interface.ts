@@ -15,8 +15,3 @@ export interface RoleSelectProps {
   required?: boolean
 }
 
-export interface CancelDialogProps {
-  open: boolean
-  onClose: () => void
-  onConfirmCancel: () => void
-}

@@ -1,22 +1,32 @@
 import React from 'react'
-import { Box, Chip, IconButton, Tooltip } from '@mui/material'
-
+import { Box, Chip } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
-
 import {
   Edit as EditIcon,
   PowerSettingsNew as PowerIcon,
 } from '@mui/icons-material'
 import { tableStyles } from '../../dashboard/styles/tableStyles'
 import { getRoleIcon } from './helpers'
+import { IUser, UserRowActions } from './UserRowActions'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getRowActions = (user: any) => [
+interface RowAction {
+  icon: React.ReactNode
+  tooltip: string
+  onClick: () => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  sx: any
+}
+
+export const getRowActions = (
+  user: IUser,
+  navigate: (path: string, options?: { state: IUser }) => void
+): RowAction[] => [
   {
     icon: <EditIcon fontSize="small" />,
     tooltip: 'Edit User',
     onClick: () => {
-      console.log('Edit user:', user)
+      console.log('Edit user:11', user)
+      navigate(`edit/${user.id}`, { state: user })
     },
     sx: tableStyles.actionButton,
   },
@@ -73,17 +83,7 @@ export const columns: GridColDef[] = [
     field: 'action',
     headerName: 'Action',
     flex: 1,
-    renderCell: (params) => (
-      <Box>
-        {getRowActions(params).map((action, index) => (
-          <Tooltip key={index} title={action.tooltip}>
-            <IconButton onClick={action.onClick} size="small" sx={action.sx}>
-              {action.icon}
-            </IconButton>
-          </Tooltip>
-        ))}
-      </Box>
-    ),
+    renderCell: (params) => <UserRowActions user={params.row} />,
   },
 ]
 

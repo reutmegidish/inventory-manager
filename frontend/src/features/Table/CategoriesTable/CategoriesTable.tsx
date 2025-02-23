@@ -9,10 +9,11 @@ import { fetchCategories } from '../../../serviecs/categoriesService'
 const CategoriesTable = () => {
   const { categories, loading, error } = useCategoriesTable()
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: {error}</div>
-
-  return (
+  return loading ? (
+    <div>Loading...</div>
+  ) : error ? (
+    <div>Error: {error}</div>
+  ) : (
     <>
       <DashboardHeader
         title="Categories Management"
