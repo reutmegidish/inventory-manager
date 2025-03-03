@@ -1,11 +1,9 @@
-import { IUser } from './user.interface'
+import { GetUserParams, IUser } from './user.interface'
 import { User } from './user.model'
 
 export const getUserByEmail = async (email: string): Promise<IUser | null> => {
   try {
-    console.log('getemail', email)
     const user = await User.findOne({ email })
-    console.log('getuser', user)
     return user
   } catch (error) {
     console.error('Error in getUserByEmail:', error)
@@ -40,9 +38,22 @@ export const createUser = async (
   return newUser
 }
 
-export const getUsers = async (): Promise<IUser[]> => {
+export const getUsers = async ({
+  name,
+  role,
+  active,
+}: GetUserParams): Promise<IUser[]> => {
   try {
-    return await User.find({})
+    const params: any = {}
+
+    if (name) params.name = { $regex: `.*${name}.*`, $options: 'i' }
+    if (role) params.role = role
+    if (active) {
+      params.active = active === 'true' ? true : false
+    }
+
+    const users = await User.find(params)
+    return users
   } catch (error) {
     console.error('Error in getUsers:', error)
     throw error

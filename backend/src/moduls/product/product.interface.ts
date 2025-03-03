@@ -10,7 +10,20 @@ export interface IProduct {
   lastUpdateDate: Date
   numberInStock: number
   store: IStore
-  categories: ICategory[]
+  category: ICategory
+  sale: ISale
+  active: boolean
+}
+
+export interface IProductRequest {
+  name: string
+  description: string
+  price: number
+  images: IImage[]
+  lastUpdateDate: Date
+  numberInStock: number
+  storeId: string
+  categoryId: string
   sale: ISale
   active: boolean
 }
@@ -22,6 +35,6 @@ export interface IImage {
 
 export interface ISale {
   price: number
-  FormData: Date
+  FormDate: Date
   toDate: Date
 }

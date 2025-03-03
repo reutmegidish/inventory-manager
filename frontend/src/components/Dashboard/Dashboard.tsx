@@ -1,86 +1,75 @@
-import React from '@mui/material'
-import { Box, Container, Alert, Typography } from '@mui/material'
+import React from 'react'
+import {
+  DashboardHeader,
+  DashboardHeaderProps,
+} from './DashboardHeader/DashboardHeader'
+import {
+  DataTableFilters,
+  DataTableFiltersProps,
+} from './DataTableFilters/DataTableFilters'
+import { DataTable, DataTableProps } from './DataTable/DataTable'
 
-import { DashboardProps } from './Dashboard.interface'
-import { dashboardStyles } from './Dashboard.styles'
-import { DashboardHeader } from './components/DashboardHeader/DashboardHeader'
-import { DashboardFilters } from './components/DashboardFilters/DashboardFilters'
-import { DashboardTable } from './components/DashboardTable'
-import { FC } from 'react'
-import { alertStyles } from './commonStyle'
+export interface DashboardProps<T>
+  extends DashboardHeaderProps,
+    DataTableFiltersProps,
+    DataTableProps<T> {}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const Dashboard: FC<DashboardProps<any>> = ({
-  title,
-  titleIcon,
-  actionButton,
-  onRefresh,
-  data,
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export const Dashboard = <T extends {}>({
+  dashboardHeaderTitle,
+  dashboardHeaderIcon,
+  setIsOnRefresh,
+  placeholder,
+  searchQuery,
+  filterOptions,
+  roleLabel,
+  statusFilter,
+  roleFilter,
+  setRoleFilter,
+  setIsTriggerFetch,
+  setSearchQuery,
+  setStatusFilter,
+  rows,
+  columns,
   loading,
   error,
-  searchPlaceholder,
-  filterOptions,
-  columns,
-  getRowActions,
-  searchQuery,
-  onSearchChange,
-  roleFilter,
-  onRoleFilterChange,
-  statusFilter,
-  onStatusFilterChange,
-  orderBy,
-  order,
-  onSort,
-  totalItems,
-}) => {
+}: DashboardProps<T>) => {
   return (
-    <Box sx={dashboardStyles.wrapper}>
-      <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Box sx={dashboardStyles.container}>
-          <DashboardHeader
-            title={title}
-            titleIcon={titleIcon}
-            actionButton={actionButton}
-            onRefresh={onRefresh}
-          />
+    <>
+      <DashboardHeader
+        {...{
+          dashboardHeaderTitle,
+          dashboardHeaderIcon,
+          setIsOnRefresh,
+        }}
+      />
 
-          {error && (
-            <Alert severity="error" sx={alertStyles}>
-              {error}
-            </Alert>
-          )}
-
-          <DashboardFilters
-            searchQuery={searchQuery}
-            onSearchChange={onSearchChange}
-            searchPlaceholder={searchPlaceholder}
-            roleFilter={roleFilter}
-            onRoleFilterChange={onRoleFilterChange as (a: string) => void}
-            roleOptions={filterOptions.role.options}
-            roleLabel={filterOptions.role.label}
-            statusFilter={statusFilter}
-            onStatusFilterChange={onStatusFilterChange as (a: string) => void}
-            statusOptions={filterOptions.status.options}
-            statusLabel={filterOptions.status.label}
-          />
-
-          <DashboardTable
-            data={data}
-            columns={columns}
-            orderBy={orderBy}
-            order={order}
-            onSort={onSort}
-            getRowActions={getRowActions}
-            loading={loading}
-          />
-
-          <Box sx={dashboardStyles.totalItems}>
-            <Typography variant="body2" sx={dashboardStyles.totalItemsText}>
-              Total Items: {totalItems}
-            </Typography>
-          </Box>
-        </Box>
-      </Container>
-    </Box>
+      <DataTableFilters
+        {...{
+          placeholder,
+          searchQuery,
+          filterOptions,
+          roleLabel,
+          statusFilter,
+          roleFilter,
+          setRoleFilter,
+          setSearchQuery,
+          setStatusFilter,
+          setIsTriggerFetch,
+        }}
+      />
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error: {error}</div>
+      ) : (
+        <DataTable
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          error={error}
+        />
+      )}
+    </>
   )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import ProtectedRouteProps from './ProtectedRouteProps.interface'
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   requiredRoles,
 }) => {
@@ -16,5 +16,3 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   return <>{children}</>
 }
-
-export default ProtectedRoute

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React from 'react'
 import {
   AppBar,
   Toolbar,
@@ -10,13 +10,11 @@ import {
 import { LogoutOutlined } from '@mui/icons-material'
 import { useStyles } from './TopBar.styles'
 
-const TopBar: FC = () => {
+export const TopBar: React.FC = () => {
   const styles = useStyles()
   const userName = 'User_from_context'
 
-  const handleLogout = () => {
-    console.log('Logout clicked')
-  }
+  const handleLogout = () => {}
 
   return (
     <AppBar position="fixed" sx={styles.appBar}>
@@ -45,5 +43,3 @@ const TopBar: FC = () => {
     </AppBar>
   )
 }
-
-export default TopBar
