@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 import { IStore } from './store.interface'
 
-const storeSchema = new Schema<IStore>({
+export const storeSchema = new Schema<IStore>({
   name: {
     type: String,
     required: true,

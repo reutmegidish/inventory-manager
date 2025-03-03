@@ -1,9 +1,7 @@
 import React from 'react'
-import { FC } from 'react'
 import { Outlet } from 'react-router-dom'
-
 import MenuItem from './components/Sidebar/Sidebar.interface'
-import TopBar from './components/TopBar/TopBar'
+import { TopBar } from './components/TopBar/TopBar'
 import Sidebar from './components/Sidebar/Sidebar'
 import { useStyles } from './DynamicDashboardLayout.styles'
 import { Box } from '@mui/material'
@@ -12,7 +10,7 @@ interface DynamicDashboardLayoutProps {
   menuItems: MenuItem[]
 }
 
-const DynamicDashboardLayout: FC<DynamicDashboardLayoutProps> = ({
+export const DynamicDashboardLayout: React.FC<DynamicDashboardLayoutProps> = ({
   menuItems,
 }) => {
   const styles = useStyles()
@@ -29,5 +27,3 @@ const DynamicDashboardLayout: FC<DynamicDashboardLayoutProps> = ({
     </Box>
   )
 }
-
-export default DynamicDashboardLayout

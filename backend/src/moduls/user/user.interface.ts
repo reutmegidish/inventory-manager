@@ -8,3 +8,9 @@ export interface IUser extends Document {
   role: 'admin' | 'employee' | 'buyer'
   active: boolean
 }
+
+export interface GetUserParams {
+  name?: string
+  role?: string
+  active?: string
+}

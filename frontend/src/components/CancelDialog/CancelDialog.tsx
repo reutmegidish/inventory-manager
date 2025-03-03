@@ -13,7 +13,7 @@ export interface CancelDialogProps {
   onConfirmCancel: () => void
 }
 
-const CancelDialog: React.FC<CancelDialogProps> = ({
+export const CancelDialog: React.FC<CancelDialogProps> = ({
   open,
   onClose,
   onConfirmCancel,
@@ -33,5 +33,3 @@ const CancelDialog: React.FC<CancelDialogProps> = ({
     </Dialog>
   )
 }
-
-export default CancelDialog

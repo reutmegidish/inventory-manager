@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import { createUser, getUserByEmail, getUsers } from './user.service'
+import { GetUserParams } from './user.interface'
 
 export const addUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password, role, employeeFields, buyerFields } = req.body
-  console.log(email, password, role, employeeFields, buyerFields)
 
   try {
     const newUser = await createUser(
@@ -14,7 +14,6 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
       buyerFields || { address: null, phone: null }
     )
 
-    console.log('newUser', newUser)
     res
       .status(201)
       .json({ message: 'User created successfully', user: newUser })
@@ -66,7 +65,8 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
 export const getMany = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const users = await getUsers()
+    const { name, role, active } = _req.query as GetUserParams
+    const users = await getUsers({ name, role, active })
     res.json(users)
   } catch (error) {
     res.status(500).json({ message: 'Error fetching users' })

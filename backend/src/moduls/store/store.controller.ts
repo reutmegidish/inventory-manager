@@ -22,7 +22,6 @@ export const addStore = async (req: Request, res: Response): Promise<void> => {
 export const getMany = async (_req: Request, res: Response): Promise<void> => {
   try {
     const store = await getStore()
-    console.log(store)
     res.json(store)
   } catch (error) {
     res.status(500).json({ message: 'Error fetching store' })
