@@ -5,7 +5,7 @@ import {
   Edit as EditIcon,
   PowerSettingsNew as PowerIcon,
 } from '@mui/icons-material'
-import { tableStyles } from '../../../../components/Dashboard/tableStyles'
+import { tableStyles } from '../../../../../components/Dashboard/tableStyles'
 import { getRoleIcon } from './helpers'
 import { IUser, UserRowActions } from './UserRowActions'
 

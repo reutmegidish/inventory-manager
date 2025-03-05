@@ -19,6 +19,7 @@ export const Dashboard = <T extends {}>({
   dashboardHeaderTitle,
   dashboardHeaderIcon,
   setIsOnRefresh,
+  addButtonText,
   placeholder,
   searchQuery,
   filterOptions,
@@ -41,6 +42,7 @@ export const Dashboard = <T extends {}>({
           dashboardHeaderTitle,
           dashboardHeaderIcon,
           setIsOnRefresh,
+          addButtonText,
         }}
       />
 
