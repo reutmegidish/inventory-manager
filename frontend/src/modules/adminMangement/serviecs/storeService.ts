@@ -8,10 +8,7 @@ interface IFilter {
   statusFilter: string
 }
 
-export const fetchCategories = async ({
-  searchQuery,
-  statusFilter,
-}: IFilter) => {
+export const fetchStore = async ({ searchQuery, statusFilter }: IFilter) => {
   try {
     const params: Record<string, string | boolean> = {}
     const trimSearchQuery = searchQuery.trim()
@@ -26,13 +23,13 @@ export const fetchCategories = async ({
       }
     }
 
-    const response = await axios.get(`${apiBaseUrl}/category`, {
+    const response = await axios.get(`${apiBaseUrl}/store`, {
       params,
     })
 
     return response.data
   } catch (error) {
-    console.error('Error fetching Categories:', error)
-    throw new Error('Failed to fetch Categories. Please try again later.')
+    console.error('Error fetching Store:', error)
+    throw new Error('Failed to fetch Store. Please try again later.')
   }
 }

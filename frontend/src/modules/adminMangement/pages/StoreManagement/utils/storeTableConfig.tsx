@@ -6,10 +6,10 @@ import {
   PowerSettingsNew as PowerIcon,
 } from '@mui/icons-material'
 import { tableStyles } from '../../../../../components/Dashboard/tableStyles'
-import { CategoriesRowActions } from './CategoriesRowActions'
-import { ICategories } from '../ICategories.interface'
+import { StoreRowActions } from './StoreRowActions'
+import { IStore } from '../IStore.interface'
 
-interface RowAction {
+interface IRowAction {
   icon: React.ReactNode
   tooltip: string
   onClick: () => void
@@ -18,14 +18,14 @@ interface RowAction {
 }
 
 export const getRowActions = (
-  Category: ICategories,
-  navigate: (path: string, options?: { state: ICategories }) => void
-): RowAction[] => [
+  Store: IStore,
+  navigate: (path: string, options?: { state: IStore }) => void
+): IRowAction[] => [
   {
     icon: <EditIcon fontSize="small" />,
-    tooltip: 'Edit Category',
+    tooltip: 'Edit Store',
     onClick: () => {
-      navigate(`edit/${Category._id}`, { state: Category })
+      navigate(`edit/${Store._id}`, { state: Store })
     },
     sx: tableStyles.actionButton,
   },
@@ -35,6 +35,12 @@ export const columns: GridColDef[] = [
   {
     field: 'name',
     headerName: 'Name',
+    flex: 1,
+    renderCell: (params) => <Box sx={tableStyles.nameCell}>{params.value}</Box>,
+  },
+  {
+    field: 'adress',
+    headerName: 'Adress',
     flex: 1,
     renderCell: (params) => <Box sx={tableStyles.nameCell}>{params.value}</Box>,
   },
@@ -54,15 +60,16 @@ export const columns: GridColDef[] = [
     field: 'action',
     headerName: 'Action',
     flex: 1,
-    renderCell: (params) => <CategoriesRowActions category={params.row} />,
+    renderCell: (params) => <StoreRowActions store={params.row} />,
   },
 ]
 
-export const getRows = (Categories: ICategories[]) => {
-  return Categories.map((Category) => ({
-    id: Category._id,
-    _id: Category._id,
-    name: Category.name,
-    active: Category.active,
+export const getRows = (Store: IStore[]) => {
+  return Store.map((Store) => ({
+    id: Store._id,
+    _id: Store._id,
+    name: Store.name,
+    adress: Store.adress,
+    active: Store.active,
   }))
 }

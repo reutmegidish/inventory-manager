@@ -4,3 +4,8 @@ export interface IStore {
   address: string
   active: boolean
 }
+
+export interface IGetStoreParams {
+  name?: string
+  active?: string
+}

@@ -1,4 +1,4 @@
-import { IStore } from './store.interface'
+import { IGetStoreParams, IStore } from './store.interface'
 import { Store } from './store.model'
 
 export const createStore = async (
@@ -23,9 +23,19 @@ export const createStore = async (
   return newStore
 }
 
-export const getStore = async (): Promise<IStore[]> => {
+export const getStore = async ({
+  name,
+  active,
+}: IGetStoreParams): Promise<IStore[]> => {
   try {
-    return await Store.find({})
+    const params: any = {}
+
+    if (name) params.name = { $regex: `.*${name}.*`, $options: 'i' }
+    if (active) {
+      params.active = active === 'true' ? true : false
+    }
+    const categories = await Store.find(params)
+    return categories
   } catch (error) {
     console.error('Error in getStore:', error)
     throw error
