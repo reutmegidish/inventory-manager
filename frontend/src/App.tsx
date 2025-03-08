@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import { adminSidebarItems, DynamicDashboardLayout } from './layout'
 import { Login, ProtectedRoute, UserForm } from './components'
-import { UserManagementPage, CategoriesManagementPage } from './modules'
+import { UserManagementPage, CategoriesManagementPage, StoreManagementPage } from './modules'
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
           {/* <Route path="categories/edit/:id" element={<CategoryForm />} /> */}
 
           <Route index element={<Navigate to="store" replace />} />
-          {/* <Route path="store" element={<StoreTable />} /> */}
+          <Route path="store" element={<StoreManagementPage />} />
           {/* <Route path="categories/add" element={<AddStoreForm />} />
           <Route path="categories/edit/:id" element={<AddStoreForm />} /> */}
         </Route>

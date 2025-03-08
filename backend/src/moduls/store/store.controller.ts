@@ -1,3 +1,4 @@
+import { IGetStoreParams } from './store.interface'
 import { createStore, getStore, updateStoreById } from './store.service'
 import { Request, Response } from 'express'
 
@@ -20,8 +21,9 @@ export const addStore = async (req: Request, res: Response): Promise<void> => {
 }
 
 export const getMany = async (_req: Request, res: Response): Promise<void> => {
+  const { name, active } = _req.query as IGetStoreParams
   try {
-    const store = await getStore()
+    const store = await getStore({ name, active })
     res.json(store)
   } catch (error) {
     res.status(500).json({ message: 'Error fetching store' })
