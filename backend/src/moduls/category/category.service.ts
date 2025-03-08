@@ -1,5 +1,5 @@
 import { Category } from './category.model'
-import { ICategory } from './categoy.interface'
+import { IGetCategoryParams, ICategory } from './categoy.interface'
 
 export const createCategory = async (
   name: string,
@@ -21,9 +21,19 @@ export const createCategory = async (
   return newCategory
 }
 
-export const getCategory = async (): Promise<ICategory[]> => {
+export const getCategory = async ({
+  name,
+  active,
+}: IGetCategoryParams): Promise<ICategory[]> => {
   try {
-    return await Category.find({})
+    const params: any = {}
+
+    if (name) params.name = { $regex: `.*${name}.*`, $options: 'i' }
+    if (active) {
+      params.active = active === 'true' ? true : false
+    }
+    const categories = await Category.find(params)
+    return categories
   } catch (error) {
     console.error('Error in getCategory:', error)
     throw error
