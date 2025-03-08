@@ -5,13 +5,13 @@ import {
 } from './DashboardHeader/DashboardHeader'
 import {
   DataTableFilters,
-  DataTableFiltersProps,
+  IDataTableFiltersProps,
 } from './DataTableFilters/DataTableFilters'
 import { DataTable, DataTableProps } from './DataTable/DataTable'
 
 export interface DashboardProps<T>
   extends DashboardHeaderProps,
-    DataTableFiltersProps,
+    IDataTableFiltersProps,
     DataTableProps<T> {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

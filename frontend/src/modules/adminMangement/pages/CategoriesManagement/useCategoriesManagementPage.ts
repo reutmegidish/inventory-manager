@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
-import { fetchUsers } from '../../serviecs/userService'
-import { User } from './utils/userTableConfig'
+import { fetchCategories } from '../../serviecs/categoriesService'
+import { ICategories } from './ICategories.interface'
 
-export const useUserManagementPage = () => {
-  const [users, setUsers] = useState<User[]>([])
+export const useCategoriesManagementPage = () => {
+  const [Categories, setCategories] = useState<ICategories[]>([])
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const [roleFilter, setRoleFilter] = useState<string>('all')
   const [statusFilter, setStatusFilter] = useState<string>('active')
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>('')
@@ -13,29 +12,26 @@ export const useUserManagementPage = () => {
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false)
   const [isInit, setIsInit] = useState<boolean>(false)
 
-  interface LoadUsersProps {
+  interface ILoadCategoriesProps {
     searchQuery: string
-    roleFilter: string
     statusFilter: string
   }
 
-  const loadUsers = async ({
+  const loadCategories = async ({
     searchQuery,
-    roleFilter,
     statusFilter,
-  }: LoadUsersProps) => {
+  }: ILoadCategoriesProps) => {
     setLoading(true)
     try {
-      const fetchedUsers = await fetchUsers({
+      const fetchedCategories = await fetchCategories({
         searchQuery,
-        roleFilter,
         statusFilter,
       })
       setError('')
-      return fetchedUsers
+      return fetchedCategories
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.error('Error fetching users:', error)
+      console.error('Error fetching Categories:', error)
       setError(error.message)
     } finally {
       setLoading(false)
@@ -45,18 +41,17 @@ export const useUserManagementPage = () => {
   useEffect(() => {
     if (!isInit && !isTriggerFetch && !isOnRefresh) return
 
-    const fetchAndSetUsers = async () => {
-      const fetchedUsers = await loadUsers({
+    const fetchAndSetCategories = async () => {
+      const fetchedCategories = await loadCategories({
         searchQuery,
-        roleFilter,
         statusFilter,
       })
-      if (fetchedUsers) setUsers(fetchedUsers)
+      if (fetchedCategories) setCategories(fetchedCategories)
       if (isTriggerFetch) setIsTriggerFetch(false)
       if (isInit) setIsInit(false)
       if (isOnRefresh) setIsOnRefresh(false)
     }
-    fetchAndSetUsers()
+    fetchAndSetCategories()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInit, isTriggerFetch, isOnRefresh])
 
@@ -65,11 +60,9 @@ export const useUserManagementPage = () => {
   }, [])
 
   return {
-    users,
+    Categories,
     searchQuery,
     setSearchQuery,
-    roleFilter,
-    setRoleFilter,
     statusFilter,
     setStatusFilter,
     loading,

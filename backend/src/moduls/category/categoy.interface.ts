@@ -4,3 +4,8 @@ export interface ICategory {
   mainCategoryId: string
   active: boolean
 }
+
+export interface IGetCategoryParams {
+  name?: string
+  active?: string
+}

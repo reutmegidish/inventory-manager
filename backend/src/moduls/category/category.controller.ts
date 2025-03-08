@@ -4,6 +4,7 @@ import {
   updateCategoryById,
 } from './category.service'
 import { Request, Response } from 'express'
+import { IGetCategoryParams } from './categoy.interface'
 
 export const addCategory = async (
   req: Request,
@@ -28,7 +29,8 @@ export const addCategory = async (
 
 export const getMany = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const category = await getCategory()
+    const { name, active } = _req.query as IGetCategoryParams
+    const category = await getCategory({ name, active })
     res.json(category)
   } catch (error) {
     res.status(500).json({ message: 'Error fetching category' })

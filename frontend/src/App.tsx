@@ -5,10 +5,9 @@ import {
   Routes,
   Navigate,
 } from 'react-router-dom'
-import { adminSidebarItems } from './layout/DashboardLayout/components/DynamicDasboardLayout/constants/adminSidebarItems'
-import { DynamicDashboardLayout } from './layout/DashboardLayout/components/DynamicDasboardLayout/DynamicDashboardLayout'
-import { UserManagementPage } from './modules/adminMangement/pages/UserManagement/UserManagementPage'
+import { adminSidebarItems, DynamicDashboardLayout } from './layout'
 import { Login, ProtectedRoute, UserForm } from './components'
+import { UserManagementPage, CategoriesManagementPage } from './modules'
 
 function App() {
   return (
@@ -31,7 +30,7 @@ function App() {
           <Route path="users/edit/:Id" element={<UserForm />} />
 
           <Route index element={<Navigate to="categories" replace />} />
-          {/* <Route path="categories" element={<CategoriesTable />} /> */}
+          <Route path="categories" element={<CategoriesManagementPage />} />
           {/* <Route path="categories/add" element={<AddCategoriesForm />} /> */}
           {/* <Route path="categories/edit/:id" element={<CategoryForm />} /> */}
 
