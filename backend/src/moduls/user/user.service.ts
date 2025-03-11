@@ -63,3 +63,21 @@ export const getUsers = async ({
     throw error
   }
 }
+
+export const updateUserById = async (
+  id: string,
+  updateData: Partial<IUser>
+): Promise<IUser | null> => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    )
+
+    return updatedUser
+  } catch (error) {
+    console.error('Error in updateUserById:', error)
+    throw error
+  }
+}

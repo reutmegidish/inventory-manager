@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { config } from '../../../config'
-import { User } from '../../../components/FormComponents/AddUserForm/user.interface'
 
 const API_BASE_URL = `${config.apiUrl}/user`
 

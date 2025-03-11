@@ -32,8 +32,8 @@ function App() {
           <Route index element={<Navigate to="users" replace />} />
           <Route path="users" element={<UserManagementPage />} />
           <Route path="users/add" element={<UserForm />} />
-          <Route path="users/edit/:Id" element={<UserForm />} />
-          <Route path="users/details/:Id" element={<UserForm />} />
+          <Route path="users/edit/:id" element={<UserForm />} />
+          <Route path="users/details/:id" element={<UserForm />} />
 
           <Route index element={<Navigate to="categories" replace />} />
           <Route path="categories" element={<CategoriesManagementPage />} />
