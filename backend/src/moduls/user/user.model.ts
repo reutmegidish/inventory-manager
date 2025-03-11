@@ -11,14 +11,22 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
   },
-  name: {
-    type: String,
-    required: true,
-  },
+  // name: {
+  //   type: String,
+  //   required: true,
+  // },
   role: {
     type: String,
     enum: ['admin', 'employee', 'buyer'],
     required: true,
+  },
+  address: {
+    type: String,
+    default: true,
+  },
+  phone: {
+    type: String,
+    default: true,
   },
   active: {
     type: Boolean,
