@@ -15,23 +15,27 @@ export const createUser = async (
   email: string,
   password: string,
   role: 'admin' | 'employee' | 'buyer',
-  employeeFields: Array<{ store: string }> = [],
-  buyerFields: { address: string | null; phone: string | null } = {
-    address: null,
-    phone: null,
-  }
+  address: string,
+  phone: string
+  // employeeFields: Array<{ store: string }> = [],
+  // buyerFields: { address: string | null; phone: string | null } = {
+  //   address: null,
+  //   phone: null,
+  // }
 ): Promise<IUser> => {
   const existingUser = await User.findOne({ email })
   if (existingUser) {
-    throw new Error('Username already exists')
+    throw new Error('Email already exists')
   }
 
   const newUser = new User({
     email,
     password,
     role,
-    employeeFields,
-    buyerFields,
+    address,
+    phone,
+    // employeeFields,
+    // buyerFields,
   })
 
   await newUser.save()

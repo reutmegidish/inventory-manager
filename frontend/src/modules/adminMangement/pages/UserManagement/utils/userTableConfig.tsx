@@ -4,6 +4,7 @@ import { GridColDef } from '@mui/x-data-grid'
 import {
   Edit as EditIcon,
   PowerSettingsNew as PowerIcon,
+  InfoOutlined as InfoOutlinedIcon,
 } from '@mui/icons-material'
 import { tableStyles } from '../../../../../components/Dashboard/tableStyles'
 import { getRoleIcon } from './helpers'
@@ -23,17 +24,27 @@ export interface User {
   email: string
   role: 'admin' | 'employee' | 'buyer'
   active: boolean
+  address?: string
+  phone?: string
 }
 
 export const getRowActions = (
   user: IUser,
-  navigate: (path: string, options?: { state: IUser }) => void
+  navigate: (path: string, options: { state: IUser }) => void
 ): RowAction[] => [
   {
     icon: <EditIcon fontSize="small" />,
     tooltip: 'Edit User',
     onClick: () => {
-      navigate(`edit/${user.id}`, { state: user })
+      navigate(`edit/${user._id}`, { state: user })
+    },
+    sx: tableStyles.actionButton,
+  },
+  {
+    icon: <InfoOutlinedIcon fontSize="small" />,
+    tooltip: 'User Details',
+    onClick: () => {
+      navigate(`details/${user._id}`, { state: user })
     },
     sx: tableStyles.actionButton,
   },
@@ -87,6 +98,7 @@ export const columns: GridColDef[] = [
 ]
 
 export const getRows = (users: User[]) => {
+  console.log(users)
   return users.map((user) => ({
     id: user._id,
     _id: user._id,
@@ -94,5 +106,7 @@ export const getRows = (users: User[]) => {
     email: user.email,
     role: user.role,
     active: user.active,
+    address: user.address,
+    phone: user.phone,
   }))
 }

@@ -3,15 +3,17 @@ import { createUser, getUserByEmail, getUsers } from './user.service'
 import { GetUserParams } from './user.interface'
 
 export const addUser = async (req: Request, res: Response): Promise<void> => {
-  const { email, password, role, employeeFields, buyerFields } = req.body
+  const { email, password, role, address, phone } = req.body
 
   try {
     const newUser = await createUser(
       email,
       password,
       role,
-      employeeFields || [],
-      buyerFields || { address: null, phone: null }
+      address,
+      phone
+      // employeeFields || [],
+      // buyerFields || { address: null, phone: null }
     )
 
     res

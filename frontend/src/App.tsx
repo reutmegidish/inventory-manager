@@ -6,8 +6,13 @@ import {
   Navigate,
 } from 'react-router-dom'
 import { adminSidebarItems, DynamicDashboardLayout } from './layout'
-import { Login, ProtectedRoute, UserForm } from './components'
-import { UserManagementPage, CategoriesManagementPage, StoreManagementPage } from './modules'
+import { Login, ProtectedRoute } from './components'
+import {
+  UserManagementPage,
+  CategoriesManagementPage,
+  StoreManagementPage,
+  UserForm,
+} from './modules'
 
 function App() {
   return (
@@ -28,12 +33,12 @@ function App() {
           <Route path="users" element={<UserManagementPage />} />
           <Route path="users/add" element={<UserForm />} />
           <Route path="users/edit/:Id" element={<UserForm />} />
+          <Route path="users/details/:Id" element={<UserForm />} />
 
           <Route index element={<Navigate to="categories" replace />} />
           <Route path="categories" element={<CategoriesManagementPage />} />
           {/* <Route path="categories/add" element={<AddCategoriesForm />} /> */}
           {/* <Route path="categories/edit/:id" element={<CategoryForm />} /> */}
-
           <Route index element={<Navigate to="store" replace />} />
           <Route path="store" element={<StoreManagementPage />} />
           {/* <Route path="categories/add" element={<AddStoreForm />} />

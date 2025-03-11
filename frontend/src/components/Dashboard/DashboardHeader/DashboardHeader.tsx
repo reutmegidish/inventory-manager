@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom'
 export interface DashboardHeaderProps {
   dashboardHeaderTitle: string
   dashboardHeaderIcon: React.ReactNode
-  setIsOnRefresh: (value: boolean) => void
-  addButtonText: string
+  setIsOnRefresh?: (value: boolean) => void
+  addButtonText?: string
 }
 
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
@@ -26,25 +26,27 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         <Typography sx={headerStyles.title}>{dashboardHeaderTitle}</Typography>
       </Box>
 
-      <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button
-          onClick={() => {
-            navigate('add')
-          }}
-          startIcon={<AddIcon />}
-        >
-          {addButtonText}
-        </Button>
+      {addButtonText && setIsOnRefresh && (
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button
+            onClick={() => {
+              navigate('add')
+            }}
+            startIcon={<AddIcon />}
+          >
+            {addButtonText}
+          </Button>
 
-        <IconButton
-          onClick={() => {
-            setIsOnRefresh(true)
-          }}
-          sx={headerStyles.refreshButton}
-        >
-          <RefreshIcon sx={headerStyles.refreshIcon} />
-        </IconButton>
-      </Box>
+          <IconButton
+            onClick={() => {
+              setIsOnRefresh(true)
+            }}
+            sx={headerStyles.refreshButton}
+          >
+            <RefreshIcon sx={headerStyles.refreshIcon} />
+          </IconButton>
+        </Box>
+      )}
     </Box>
   )
 }
