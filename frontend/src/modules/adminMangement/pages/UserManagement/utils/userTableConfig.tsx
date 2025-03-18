@@ -98,7 +98,6 @@ export const columns: GridColDef[] = [
 ]
 
 export const getRows = (users: User[]) => {
-  console.log(users)
   return users.map((user) => ({
     id: user._id,
     _id: user._id,
