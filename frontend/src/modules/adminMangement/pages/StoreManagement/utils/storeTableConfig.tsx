@@ -4,6 +4,7 @@ import { GridColDef } from '@mui/x-data-grid'
 import {
   Edit as EditIcon,
   PowerSettingsNew as PowerIcon,
+  InfoOutlined as InfoOutlinedIcon,
 } from '@mui/icons-material'
 import { tableStyles } from '../../../../../components/Dashboard/tableStyles'
 import { StoreRowActions } from './StoreRowActions'
@@ -26,6 +27,14 @@ export const getRowActions = (
     tooltip: 'Edit Store',
     onClick: () => {
       navigate(`edit/${Store._id}`, { state: Store })
+    },
+    sx: tableStyles.actionButton,
+  },
+  {
+    icon: <InfoOutlinedIcon fontSize="small" />,
+    tooltip: 'Store Details',
+    onClick: () => {
+      navigate(`details/${Store._id}`, { state: Store })
     },
     sx: tableStyles.actionButton,
   },

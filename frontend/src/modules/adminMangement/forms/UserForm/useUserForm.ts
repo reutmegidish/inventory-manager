@@ -28,7 +28,6 @@ export const useUserForm = ({
     setLoading(true)
     setError('')
     try {
-      console.log(isEditPage, id)
       await (isEditPage && id ? updateUser(id, formData) : createUser(formData))
 
       setLoading(false)
