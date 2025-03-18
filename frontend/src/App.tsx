@@ -12,6 +12,8 @@ import {
   CategoriesManagementPage,
   StoreManagementPage,
   UserForm,
+  CategoriesForm,
+  StoreForm,
 } from './modules'
 
 function App() {
@@ -29,20 +31,23 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Navigate to="users" replace />} />
+          <Route index element={<Navigate to="users" />} />
           <Route path="users" element={<UserManagementPage />} />
           <Route path="users/add" element={<UserForm />} />
           <Route path="users/edit/:id" element={<UserForm />} />
           <Route path="users/details/:id" element={<UserForm />} />
 
-          <Route index element={<Navigate to="categories" replace />} />
+          <Route index element={<Navigate to="categories" />} />
           <Route path="categories" element={<CategoriesManagementPage />} />
-          {/* <Route path="categories/add" element={<AddCategoriesForm />} /> */}
-          {/* <Route path="categories/edit/:id" element={<CategoryForm />} /> */}
-          <Route index element={<Navigate to="store" replace />} />
+          <Route path="categories/add" element={<CategoriesForm />} />
+          <Route path="categories/edit/:id" element={<CategoriesForm />} />
+          <Route path="categories/details/:id" element={<CategoriesForm />} />
+
+          <Route index element={<Navigate to="store" />} />
           <Route path="store" element={<StoreManagementPage />} />
-          {/* <Route path="categories/add" element={<AddStoreForm />} />
-          <Route path="categories/edit/:id" element={<AddStoreForm />} /> */}
+          <Route path="store/add" element={<StoreForm />} />
+          <Route path="store/edit/:id" element={<StoreForm />} />
+          <Route path="store/details/:id" element={<StoreForm />} />
         </Route>
       </Routes>
     </Router>

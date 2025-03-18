@@ -30,7 +30,7 @@ export const UserFormComponents: React.FC<IUserFormComponentsProps> = ({
 }) => {
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <FormControl component="form" onSubmit={handleSubmit} fullWidth>
         <TextField
           fullWidth
           label="Email"
@@ -151,7 +151,7 @@ export const UserFormComponents: React.FC<IUserFormComponentsProps> = ({
             Save
           </Button>
         </Box>
-      </form>
+      </FormControl>
     </>
   )
 }
