@@ -22,11 +22,17 @@ export const useStoreForm = ({
   const [success, setSuccess] = useState('')
   const [openCancelDialog, setOpenCancelDialog] = useState(false)
   const [formData, setFormData] = useState<IStoreForm>(initFormData)
+  const [isSubmit, setIsSubmit] = useState<boolean>(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (isSubmit) return
+
+    setIsSubmit(true)
     setLoading(true)
     setError('')
+    setSuccess('')
+
     try {
       await (isEditPage && id
         ? updateStore(id, formData)
@@ -34,10 +40,16 @@ export const useStoreForm = ({
 
       setLoading(false)
       setSuccess('Store saved successfully')
-      setTimeout(() => navigate('/admin-dashboard/store'), 1500)
+
+      setTimeout(() => {
+        navigate('/admin-dashboard/store')
+      }, 1000)
+
+      // setIsSubmit(false)
     } catch (error) {
       setLoading(false)
       setError(error.message || 'Failed to create store')
+      setIsSubmit(false)
     }
   }
 
@@ -50,5 +62,7 @@ export const useStoreForm = ({
     formData,
     setFormData,
     handleSubmit,
+    isSubmit,
+    setIsSubmit,
   }
 }

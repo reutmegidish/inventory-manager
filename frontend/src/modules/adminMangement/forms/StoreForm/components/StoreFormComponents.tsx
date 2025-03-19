@@ -1,13 +1,12 @@
 import React from 'react'
 import {
-  Box,
   TextField,
   Checkbox,
   FormControlLabel,
-  Button,
   FormControl,
 } from '@mui/material'
 import { IStoreForm } from '../StoreForm'
+import { FormActions } from '../../../../../components'
 
 interface IStoreFormComponentsProps {
   handleSubmit: (e: React.FormEvent) => void
@@ -15,6 +14,8 @@ interface IStoreFormComponentsProps {
   setFormData: React.Dispatch<React.SetStateAction<IStoreForm>>
   viewOnly: boolean
   handleCancel: () => void
+  isSubmit: boolean
+  setIsSubmit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const StoreFormComponents: React.FC<IStoreFormComponentsProps> = ({
@@ -23,6 +24,7 @@ export const StoreFormComponents: React.FC<IStoreFormComponentsProps> = ({
   setFormData,
   viewOnly,
   handleCancel,
+  isSubmit,
 }) => {
   return (
     <>
@@ -59,14 +61,11 @@ export const StoreFormComponents: React.FC<IStoreFormComponentsProps> = ({
           disabled={viewOnly}
         />
 
-        <Box>
-          <Button variant="outlined" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button type="submit" variant="contained" disabled={viewOnly}>
-            Save
-          </Button>
-        </Box>
+        <FormActions
+          handleCancel={handleCancel}
+          handleSubmit={handleSubmit}
+          isSubmit={isSubmit}
+        />
       </FormControl>
     </>
   )

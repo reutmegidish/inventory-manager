@@ -43,6 +43,8 @@ export const StoreForm: React.FC = () => {
     formData,
     setFormData,
     handleSubmit,
+    isSubmit,
+    setIsSubmit,
   } = useStoreForm({ initFormData, isDetailPage, isEditPage, id })
 
   const handleCancel = () => setOpenCancelDialog(true)
@@ -71,6 +73,8 @@ export const StoreForm: React.FC = () => {
         setFormData={setFormData}
         viewOnly={isDetailPage}
         handleCancel={handleCancel}
+        isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
       />
       <CancelDialog
         open={openCancelDialog}
