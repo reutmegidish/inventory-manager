@@ -33,9 +33,11 @@ export const UserFormComponents: React.FC<IUserFormComponentsProps> = ({
       <FormControl component="form" onSubmit={handleSubmit} fullWidth>
         <TextField
           fullWidth
-          label="Email"
+          required
           id="email"
+          label="Email"
           name="email"
+          autoFocus
           value={formData.email}
           onChange={(e) => {
             setFormData((prevData) => ({
@@ -43,15 +45,15 @@ export const UserFormComponents: React.FC<IUserFormComponentsProps> = ({
               email: e.target.value,
             }))
           }}
-          required
-          autoComplete="email"
           disabled={viewOnly}
         />
 
         <TextField
           fullWidth
-          label="Password"
+          required
+          autoFocus
           id="password"
+          label="Password"
           name="password"
           type="password"
           value={formData.password}
@@ -61,35 +63,31 @@ export const UserFormComponents: React.FC<IUserFormComponentsProps> = ({
               password: e.target.value,
             }))
           }}
-          required
-          autoComplete="new-password"
           disabled={viewOnly}
         />
 
-        <FormControl fullWidth>
-          <InputLabel id="role-label">Role</InputLabel>
-          <Select
-            labelId="role-label"
-            id="role"
-            name="role"
-            value={formData.role}
-            onChange={(e) => {
-              setFormData((prevData) => ({
-                ...prevData,
-                role: e.target.value,
-              }))
-            }}
-            required
-            autoComplete="off"
-            disabled={viewOnly}
-          >
-            {roles.map((role) => (
-              <MenuItem key={role.value} value={role.value}>
-                {role.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <InputLabel id="role-label">Role</InputLabel>
+        <Select
+          labelId="role-label"
+          id="role"
+          name="role"
+          value={formData.role}
+          onChange={(e) => {
+            setFormData((prevData) => ({
+              ...prevData,
+              role: e.target.value,
+            }))
+          }}
+          required
+          autoComplete="off"
+          disabled={viewOnly}
+        >
+          {roles.map((role) => (
+            <MenuItem key={role.value} value={role.value}>
+              {role.label}
+            </MenuItem>
+          ))}
+        </Select>
 
         {formData.role === 'buyer' && (
           <>
@@ -106,7 +104,6 @@ export const UserFormComponents: React.FC<IUserFormComponentsProps> = ({
                 }))
               }}
               required
-              autoComplete="address"
               disabled={viewOnly}
             />
             <TextField
@@ -122,7 +119,6 @@ export const UserFormComponents: React.FC<IUserFormComponentsProps> = ({
                 }))
               }}
               required
-              autoComplete="tel"
               disabled={viewOnly}
             />
           </>
