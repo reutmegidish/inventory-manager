@@ -9,13 +9,14 @@ export interface IProduct {
   images: IImage[]
   lastUpdateDate: Date
   numberInStock: number
-  store: IStore
-  category: ICategory
+  storeId: IStore
+  categoryId: ICategory
   sale: ISale
   active: boolean
 }
 
 export interface IProductRequest {
+  _id: string
   name: string
   description: string
   price: number
@@ -37,4 +38,9 @@ export interface ISale {
   price: number
   FormDate: Date
   toDate: Date
+}
+
+export interface IGetProductsParams {
+  name?: string
+  active?: string
 }

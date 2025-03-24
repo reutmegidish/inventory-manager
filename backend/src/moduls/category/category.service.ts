@@ -8,7 +8,7 @@ export const createCategory = async (
 ): Promise<ICategory> => {
   const existingCategory = await Category.findOne({ name })
   if (existingCategory) {
-    throw new Error('Category Name already exists') // TODO: HANDLE ERR
+    throw new Error('Category Name already exists')
   }
 
   const newCategory = new Category({

@@ -9,7 +9,7 @@ export const createStore = async (
 ): Promise<IStore> => {
   const existingStore = await Store.findOne({ name })
   if (existingStore) {
-    throw new Error('Store Name already exists') // TODO: HANDLE ERR
+    throw new Error('Store Name already exists')
   }
 
   const newStore = new Store({
@@ -34,8 +34,8 @@ export const getStore = async ({
     if (active) {
       params.active = active === 'true' ? true : false
     }
-    const categories = await Store.find(params)
-    return categories
+    const stores = await Store.find(params)
+    return stores
   } catch (error) {
     console.error('Error in getStore:', error)
     throw error
