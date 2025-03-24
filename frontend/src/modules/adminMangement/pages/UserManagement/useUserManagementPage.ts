@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { fetchUsers } from '../../serviecs/userService'
 import { User } from './utils/userTableConfig'
+import { fetchUsers } from '../../../../services'
 
 export const useUserManagementPage = () => {
   const [users, setUsers] = useState<User[]>([])

@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { ICategoriesForm } from './CategoriesForm'
+import {
+  createCategory,
+  updateCategory,
+} from '../../../../services/categoriesService'
 import { useNavigate } from 'react-router-dom'
-import { createCategory, updateCategory } from '../../../../services'
 
 interface IuseCategoriesFormProps {
   initFormData: ICategoriesForm

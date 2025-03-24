@@ -21,7 +21,6 @@ export const UseLogin = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setFormData({ ...formData, [name]: value })
-    console.log(formData)
     setError('')
   }
 
@@ -32,7 +31,6 @@ export const UseLogin = () => {
 
     try {
       const response = await loginUser(formData)
-      console.log(response)
 
       if (response.success) {
         const role = response.user.role

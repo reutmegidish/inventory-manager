@@ -10,7 +10,6 @@ export const FormActions: React.FC<FormActionsProps> = ({
   handleCancel,
   isSubmit,
 }) => {
-  console.log(isSubmit)
   return (
     <Box>
       {isSubmit ? (
