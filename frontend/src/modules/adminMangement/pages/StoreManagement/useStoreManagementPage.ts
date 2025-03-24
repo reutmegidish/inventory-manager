@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { fetchStore } from '../../serviecs/storeService'
 import { IStore } from './IStore.interface'
+import { fetchStores } from '../../../../services'
 
 export const useStoreManagementPage = () => {
   const [Store, setStore] = useState<IStore[]>([])
@@ -20,7 +20,7 @@ export const useStoreManagementPage = () => {
   const loadStore = async ({ searchQuery, statusFilter }: ILoadStoreProps) => {
     setLoading(true)
     try {
-      const fetchedStore = await fetchStore({
+      const fetchedStore = await fetchStores({
         searchQuery,
         statusFilter,
       })

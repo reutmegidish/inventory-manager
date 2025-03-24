@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { IStoreForm } from './StoreForm'
-import { createStore, updateStore } from '../../serviecs/storeService'
 import { useNavigate } from 'react-router-dom'
+import { createStore, updateStore } from '../../../../services'
 
 interface IuseStoreFormProps {
   initFormData: IStoreForm

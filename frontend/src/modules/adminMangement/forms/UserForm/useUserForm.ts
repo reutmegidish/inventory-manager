@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { IUserForm } from './UserForm'
-import { createUser, updateUser } from '../../serviecs/userService'
 import { useNavigate } from 'react-router-dom'
+import { createUser, updateUser } from '../../../../services'
 
 interface IuseUserFormProps {
   initFormData: IUserForm

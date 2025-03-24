@@ -6,7 +6,7 @@ import {
   Navigate,
 } from 'react-router-dom'
 import { adminSidebarItems, DynamicDashboardLayout } from './layout'
-import { Login, ProtectedRoute } from './components'
+import { ProtectedRoute } from './components'
 import {
   UserManagementPage,
   CategoriesManagementPage,
@@ -14,14 +14,18 @@ import {
   UserForm,
   CategoriesForm,
   StoreForm,
+  ProductForm,
 } from './modules'
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Navigate to="/product" replace />} />
+        <Route path="/product" element={<ProductForm />} />
+
+        {/* <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} /> */}
 
         <Route
           path="/admin-dashboard"

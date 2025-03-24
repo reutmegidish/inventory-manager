@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { fetchCategories } from '../../serviecs/categoriesService'
 import { ICategories } from './ICategories.interface'
+import { fetchCategories } from '../../../../services'
 
 export const useCategoriesManagementPage = () => {
   const [Categories, setCategories] = useState<ICategories[]>([])

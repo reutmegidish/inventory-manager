@@ -1,17 +1,14 @@
 import axios from 'axios'
-import { config } from '../../../config'
+import { config } from '../config'
 
-const API_BASE_URL = `${config.apiUrl}/category`
+const API_BASE_URL = `${config.apiUrl}/store`
 
 interface IFilter {
   searchQuery: string
   statusFilter: string
 }
 
-export const fetchCategories = async ({
-  searchQuery,
-  statusFilter,
-}: IFilter) => {
+export const fetchStores = async ({ searchQuery, statusFilter }: IFilter) => {
   try {
     const params: Record<string, string | boolean> = {}
     const trimSearchQuery = searchQuery.trim()
@@ -32,18 +29,18 @@ export const fetchCategories = async ({
 
     return response.data
   } catch (error) {
-    console.error('Error fetching Categories:', error)
-    throw new Error('Failed to fetch Categories. Please try again later.')
+    console.error('Error fetching Store:', error)
+    throw new Error('Failed to fetch Store. Please try again later.')
   }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const updateCategory = async (categoryId: string, formData: any) => {
+export const updateStore = async (storeId: string, formData: any) => {
   try {
-    const response = await axios.put(`${API_BASE_URL}/${categoryId}`, formData)
+    const response = await axios.put(`${API_BASE_URL}/${storeId}`, formData)
     return response.data
   } catch (error) {
-    console.error('Error updating category:', error)
+    console.error('Error updating store:', error)
     throw error
   }
 }
@@ -53,14 +50,14 @@ interface IFormData {
   active: boolean
 }
 
-export const createCategory = async (formData: IFormData) => {
+export const createStore = async (formData: IFormData) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/create`, formData)
     return response.data
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
-        error.response?.data?.message || 'Failed to create category'
+        error.response?.data?.message || 'Failed to create store'
       throw new Error(errorMessage)
     } else {
       throw new Error('An unknown error occurred')

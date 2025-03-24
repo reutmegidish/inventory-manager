@@ -1,19 +1,17 @@
 import axios from 'axios'
-import { config } from '../../../config'
+import { config } from '../config'
 
-const API_BASE_URL = `${config.apiUrl}/user`
+const API_BASE_URL = `${config.apiUrl}/category`
 
-interface Filter {
+interface IFilter {
   searchQuery: string
-  roleFilter: string
   statusFilter: string
 }
 
-export const fetchUsers = async ({
+export const fetchCategories = async ({
   searchQuery,
-  roleFilter,
   statusFilter,
-}: Filter) => {
+}: IFilter) => {
   try {
     const params: Record<string, string | boolean> = {}
     const trimSearchQuery = searchQuery.trim()
@@ -21,9 +19,7 @@ export const fetchUsers = async ({
     if (trimSearchQuery) {
       params.name = trimSearchQuery
     }
-    if (roleFilter && roleFilter !== 'all') {
-      params.role = roleFilter
-    }
+
     if (statusFilter && statusFilter !== 'all') {
       {
         params.active = statusFilter === 'active' ? true : false
@@ -36,40 +32,35 @@ export const fetchUsers = async ({
 
     return response.data
   } catch (error) {
-    console.error('Error fetching users:', error)
-    throw new Error('Failed to fetch users. Please try again later.')
+    console.error('Error fetching Categories:', error)
+    throw new Error('Failed to fetch Categories. Please try again later.')
   }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const updateUser = async (userId: string, formData: any) => {
+export const updateCategory = async (categoryId: string, formData: any) => {
   try {
-    const response = await axios.put(`${API_BASE_URL}/${userId}`, formData)
+    const response = await axios.put(`${API_BASE_URL}/${categoryId}`, formData)
     return response.data
   } catch (error) {
-    console.error('Error updating user:', error)
+    console.error('Error updating category:', error)
     throw error
   }
 }
 
 interface IFormData {
   name?: string
-  email: string
-  role: string
   active: boolean
-  address?: string
-  phone?: string
-  password: string
 }
 
-export const createUser = async (formData: IFormData) => {
+export const createCategory = async (formData: IFormData) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/create`, formData)
     return response.data
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
-        error.response?.data?.message || 'Failed to create user'
+        error.response?.data?.message || 'Failed to create category'
       throw new Error(errorMessage)
     } else {
       throw new Error('An unknown error occurred')
