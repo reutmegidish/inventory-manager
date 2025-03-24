@@ -1,30 +1,20 @@
 import { Product } from './product.model'
 import { IProduct, IProductRequest } from './product.interface'
-import { Store } from '../store/store.model'
-import { Category } from '../category/category.model'
 
 export const createProduct = async (
   product: IProductRequest
-): Promise<IProduct> => {
-  const existingProduct = await Product.findOne({ name: product.name })
+): Promise<IProductRequest> => {
+  const existingProduct = await Product.findOne({ _id: product._id })
   if (existingProduct) {
-    throw new Error('Product Name already exists') // TODO: HANDLE ERR
+    throw new Error('Product ID already exists')
   }
 
-  const store = await Store.findById(product.storeId)
-  const category = await Category.findById(product.categoryId)
-  const fullDataProduct = {
-    ...product,
-    store,
-    category,
-  }
-  const newProduct = new Product(fullDataProduct)
-
+  const newProduct = new Product(product)
   await newProduct.save()
   return newProduct
 }
 
-export const getProduct = async (): Promise<IProduct[]> => {
+export const getProducts = async (): Promise<IProduct[]> => {
   try {
     return await Product.find({})
   } catch (error) {
@@ -36,7 +26,7 @@ export const getProduct = async (): Promise<IProduct[]> => {
 export const updateProductById = async (
   id: string,
   updateData: Partial<IProduct>
-): Promise<IProduct | null> => {
+): Promise<IProductRequest | null> => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
@@ -47,6 +37,18 @@ export const updateProductById = async (
     return updatedProduct
   } catch (error) {
     console.error('Error in updateProductById:', error)
+    throw error
+  }
+}
+
+export const getProductById = async (
+  id: string
+): Promise<IProductRequest | null> => {
+  try {
+    const product = await Product.findById(id)
+    return product
+  } catch (error) {
+    console.error('Error in getProduct:', error)
     throw error
   }
 }

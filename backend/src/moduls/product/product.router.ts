@@ -3,12 +3,12 @@ import {
   addProduct,
   getMany,
   updateProduct,
-  // getOneById,
+  getOneById,
 } from './product.controller'
 
 const ProductRouter: Router = Router()
 ProductRouter.post('/create', addProduct)
-// ProductRouter.get('/:id', getOneById)
+ProductRouter.get('/:id', getOneById)
 ProductRouter.get('/', getMany)
 ProductRouter.put('/:id', updateProduct)
 

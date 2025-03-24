@@ -1,6 +1,13 @@
-import { createProduct, getProduct, updateProductById } from './product.service'
+import {
+  createProduct,
+  getProductById,
+  getProducts,
+  updateProductById,
+} from './product.service'
 import { Request, Response } from 'express'
-import { IProduct, IProductRequest } from './product.interface'
+import { IProductRequest } from './product.interface'
+import { Store } from '../store/store.model'
+import { Category } from '../category/category.model'
 
 export const addProduct = async (
   req: Request,
@@ -25,10 +32,10 @@ export const addProduct = async (
 
 export const getMany = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const category = await getProduct()
-    res.json(category)
+    const products = await getProducts()
+    res.json(products)
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching category' })
+    res.status(500).json({ message: 'Error fetching product' })
   }
 }
 
@@ -38,32 +45,55 @@ export const updateProduct = async (
 ): Promise<void> => {
   try {
     const { id } = req.params
-    const { name, active } = req.body
-
-    if (!name) {
-      res.status(400).json({ message: 'Missing required fields' })
-      return
-    }
-
-    const updatedProduct = await updateProductById(id, {
+    const {
       name,
+      description,
+      price,
+      images,
+      lastUpdateDate,
+      numberInStock,
+      storeId,
+      categoryId,
+      sale,
       active,
-    })
+    } = req.body
+
+    const updatedProduct = await updateProductById(id, req.body)
 
     if (!updatedProduct) {
-      res.status(404).json({ message: 'category not found' })
+      res.status(404).json({ message: 'product not found' })
       return
     }
 
     res.json({
       message: 'Product updated successfully',
-      category: updatedProduct,
+      product: updatedProduct,
     })
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json({ message: error.message })
     } else {
-      res.status(500).json({ message: 'Failed to update category' })
+      res.status(500).json({ message: 'Failed to update product' })
     }
+  }
+}
+
+export const getOneById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { _id } = req.params
+    const product = await getProductById(_id)
+    const store = await Store.findById(product?.storeId)
+    const category = await Category.findById(product?.categoryId)
+    const fullDataProduct = {
+      ...product,
+      store,
+      category,
+    }
+    res.json(fullDataProduct)
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching product' })
   }
 }

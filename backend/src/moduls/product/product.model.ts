@@ -1,7 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { IProduct, IImage, ISale } from './product.interface'
-import { categorySchema } from '../category/category.model'
-import { Store, storeSchema } from '../store/store.model'
+import { IImage, ISale, IProductRequest } from './product.interface'
 
 const IImageSchema = new Schema<IImage>({
   url: { type: String, required: true },
@@ -13,7 +11,7 @@ const ISaleSchema = new Schema<ISale>({
   toDate: { type: Date, required: false },
 })
 
-const productSchema = new Schema<IProduct>({
+const productSchema = new Schema<IProductRequest>({
   name: {
     type: String,
     required: true,
@@ -38,14 +36,15 @@ const productSchema = new Schema<IProduct>({
     type: Number,
     required: true,
   },
-  store: {
-    type: storeSchema,
+  storeId: {
+    type: String,
     required: true,
   },
-  category: {
-    type: categorySchema,
+  categoryId: {
+    type: String,
     required: true,
   },
+
   sale: {
     type: ISaleSchema,
     required: false,
@@ -56,4 +55,4 @@ const productSchema = new Schema<IProduct>({
   },
 })
 
-export const Product = model<IProduct>('product', productSchema)
+export const Product = model<IProductRequest>('product', productSchema)
