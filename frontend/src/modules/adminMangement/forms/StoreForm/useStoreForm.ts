@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IStoreForm } from './StoreForm'
 import { useNavigate } from 'react-router-dom'
 import { createStore, updateStore } from '../../../../services'
@@ -24,33 +24,35 @@ export const useStoreForm = ({
   const [formData, setFormData] = useState<IStoreForm>(initFormData)
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
 
+  useEffect(() => {
+    const updateFormData = async () => {
+      if (!isSubmit) {
+        return
+      }
+
+      try {
+        await (isEditPage && id
+          ? updateStore(id, formData)
+          : createStore(formData))
+
+        setLoading(false)
+        setSuccess('Store saved successfully')
+        navigate('/admin-dashboard/store')
+      } catch (error) {
+        setError(error.message || 'Failed to create store')
+      } finally {
+        setIsSubmit(false)
+        setLoading(false)
+      }
+    }
+    updateFormData()
+  }, [isSubmit])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (isSubmit) return
 
     setIsSubmit(true)
     setLoading(true)
-    setError('')
-    setSuccess('')
-
-    try {
-      await (isEditPage && id
-        ? updateStore(id, formData)
-        : createStore(formData))
-
-      setLoading(false)
-      setSuccess('Store saved successfully')
-
-      setTimeout(() => {
-        navigate('/admin-dashboard/store')
-      }, 1000)
-
-      // setIsSubmit(false)
-    } catch (error) {
-      setLoading(false)
-      setError(error.message || 'Failed to create store')
-      setIsSubmit(false)
-    }
   }
 
   return {
