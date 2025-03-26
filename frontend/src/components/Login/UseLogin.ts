@@ -35,6 +35,7 @@ export const UseLogin = () => {
       if (response.success) {
         const role = response.user.role
         localStorage.setItem('userRole', role)
+
         navigateUserRole(role, navigate)
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

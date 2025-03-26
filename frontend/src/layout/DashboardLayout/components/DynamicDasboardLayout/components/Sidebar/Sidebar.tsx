@@ -13,7 +13,7 @@ import {
 import { useStyles } from './Sidebar.styles'
 import { SidebarProps } from './Sidebar.interface'
 
-const Sidebar: FC<SidebarProps> = ({ menuItems }) => {
+export const Sidebar: FC<SidebarProps> = ({ menuItems }) => {
   const styles = useStyles()
   const navigate = useNavigate()
   const location = useLocation()
@@ -41,5 +41,3 @@ const Sidebar: FC<SidebarProps> = ({ menuItems }) => {
     </Drawer>
   )
 }
-
-export default Sidebar

@@ -2,9 +2,9 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import MenuItem from './components/Sidebar/Sidebar.interface'
 import { TopBar } from './components/TopBar/TopBar'
-import Sidebar from './components/Sidebar/Sidebar'
 import { useStyles } from './DynamicDashboardLayout.styles'
 import { Box } from '@mui/material'
+import { Sidebar } from './components/Sidebar/Sidebar'
 
 interface DynamicDashboardLayoutProps {
   menuItems: MenuItem[]

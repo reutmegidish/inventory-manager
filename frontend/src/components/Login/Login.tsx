@@ -17,7 +17,7 @@ export const Login: React.FC = () => {
     <Box>
       <Box>
         <Box sx={{ mb: 3, textAlign: 'center' }}>
-          <Typography component="h1">Sign in</Typography>
+          <Typography component="h1">Login</Typography>
         </Box>
 
         <FormControl component="form" onSubmit={handleSubmit}>
@@ -57,7 +57,7 @@ export const Login: React.FC = () => {
             sx={{ mt: 3, mb: 2 }}
             disabled={loading}
           >
-            {loading ? <CircularProgress size={24} /> : 'Sign In'}
+            {loading ? <CircularProgress size={24} /> : 'LogIn'}
           </Button>
         </FormControl>
       </Box>
