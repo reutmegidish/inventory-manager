@@ -38,7 +38,7 @@ export const fetchProducts = async ({
     }
     if (statusFilter && statusFilter !== 'all') {
       {
-        params.active = statusFilter === 'active' ? true : false
+        params.active = statusFilter === 'active'
       }
     }
 

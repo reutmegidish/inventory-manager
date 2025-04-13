@@ -33,7 +33,35 @@ export const addProduct = async (
 export const getMany = async (_req: Request, res: Response): Promise<void> => {
   try {
     const products = await getProducts()
-    res.json(products)
+
+    if (products.length === 0) {
+      res.status(404).json({ message: 'No products found' })
+
+      return
+    }
+
+    const fullDataProducts = await Promise.all(
+      products.map(async (product) => {
+        const category = await Category.findById(product?.categoryId)
+        const categoryName = category ? category.name : 'Unknown Category'
+
+        const fullDataProduct = {
+          _id: product._id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          images: product.images,
+          lastUpdateDate: product.lastUpdateDate,
+          numberInStock: product.numberInStock,
+          category: categoryName,
+          sale: product.sale,
+          active: product.active,
+        }
+        return fullDataProduct
+      })
+    )
+
+    res.json(fullDataProducts)
   } catch (error) {
     res.status(500).json({ message: 'Error fetching product' })
   }

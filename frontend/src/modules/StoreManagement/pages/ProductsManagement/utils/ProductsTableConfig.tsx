@@ -20,13 +20,13 @@ interface RowAction {
 export interface IProduct {
   _id: string
   name: string
-  store: string
-  categories: string
   description: string
-  amountInStock: number
   price: number
+  category: string
+  numberInStock: number
+  lastUpdateDate: Date
   sale: number
-  lastUdate: Date
+  images: string[]
   active: boolean
 }
 
@@ -55,9 +55,9 @@ export const getRowActions = (
 export const columns: GridColDef[] = [
   { field: 'name', headerName: 'Name', flex: 2 },
   { field: 'store', headerName: 'Store', flex: 2 },
-  { field: 'categories', headerName: 'Categories', flex: 2 },
+  { field: 'category', headerName: 'Categories', flex: 2 },
   { field: 'description', headerName: 'Description', flex: 2 },
-  { field: 'amountInStock', headerName: 'Amount In Stock', flex: 2 },
+  { field: 'numberInStock', headerName: 'Amount In Stock', flex: 2 },
   { field: 'price', headerName: 'Price', flex: 2 },
   { field: 'sale', headerName: 'Sale', flex: 2 },
   { field: 'lastUdate', headerName: 'Last Update', flex: 2 },
@@ -86,13 +86,13 @@ export const getRows = (products: IProduct[]) => {
     id: product._id,
     _id: product._id,
     name: product.name,
-    store: product.store,
-    categories: product.categories,
     description: product.description,
-    amountInStock: product.amountInStock,
     price: product.price,
+    category: product.category,
+    numberInStock: product.numberInStock,
     sale: product.sale,
-    lastUdate: product.lastUdate,
+    lastUpdateDate: product.lastUpdateDate,
     active: product.active,
+    images: product.images,
   }))
 }

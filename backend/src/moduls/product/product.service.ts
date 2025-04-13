@@ -14,7 +14,7 @@ export const createProduct = async (
   return newProduct
 }
 
-export const getProducts = async (): Promise<IProduct[]> => {
+export const getProducts = async (): Promise<IProductRequest[]> => {
   try {
     return await Product.find({})
   } catch (error) {

@@ -20,15 +20,13 @@ import {
   StoreForm,
   ProductsManagementPage,
   OrdersManagementPage,
+  ProductForm,
 } from './modules'
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/" element={<Navigate to="/product" replace />} />
-        <Route path="/product" element={<ProductForm />} /> */}
-
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
 
@@ -69,9 +67,9 @@ function App() {
         >
           <Route index element={<Navigate to="products" />} />
           <Route path="products" element={<ProductsManagementPage />} />
-          {/* <Route path="products/add" element={<ProductForm />} />
-          <Route path="products/edit/:id" element={<ProductForm />} />
-          <Route path="products/details/:id" element={<ProductForm />} /> */}
+          <Route path="products/add" element={<ProductForm />} />
+          {/* <Route path="products/edit/:id" element={<ProductForm />} /> */}
+          {/* <Route path="products/details/:id" element={<ProductForm />} /> */}
 
           <Route index element={<Navigate to="orders" />} />
           <Route path="orders" element={<OrdersManagementPage />} />

@@ -9,8 +9,8 @@ export interface IProduct {
   images: IImage[]
   lastUpdateDate: Date
   numberInStock: number
-  storeId: IStore
-  categoryId: ICategory
+  store: IStore
+  category: ICategory
   sale: ISale
   active: boolean
 }

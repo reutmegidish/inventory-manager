@@ -1,8 +1,8 @@
 import React from 'react'
 import { productsConstants } from './utils/productsConstants'
 import { useProductsManagementPag } from './useProductsManagementPag'
+import { Dashboard } from '../../../../components'
 import { columns, getRows, IProduct } from './utils/ProductsTableConfig'
-import { Dashboard } from '../../../../components/Dashboard/Dashboard'
 import { Storefront as StoreIcon } from '@mui/icons-material'
 
 export const ProductsManagementPage: React.FC = () => {
