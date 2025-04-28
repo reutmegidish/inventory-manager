@@ -12,4 +12,5 @@ export const env = {
   appOrigin: getEnv('APP_ORIGIN'),
   jwtSecret: getEnv('JWT_SECRET'),
   jwtRefreshSecret: getEnv('JWT_REFRESH_SECRET'),
+  nodeEnv: getEnv('NODE_ENV'),
 }

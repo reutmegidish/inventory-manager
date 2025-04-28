@@ -6,32 +6,21 @@ import {
   updateUserById,
 } from './user.service'
 import { GetUserParams } from './user.interface'
+import { zodSchema } from './user.zod'
+import { catchErrors } from '../../utils/catchErrors'
+import { CREATED } from '../../constants/http'
 
-export const addUser = async (req: Request, res: Response): Promise<void> => {
-  const { email, password, role, address, phone } = req.body
+export const addUser = catchErrors(async (req, res) => {
+  const request = zodSchema.parse(req.body)
 
-  try {
-    const newUser = await createUser(
-      email,
-      password,
-      role,
-      address,
-      phone
-      // employeeFields || [],
-      // buyerFields || { address: null, phone: null }
-    )
+  const { confirmPassword, ...userData } = request
+  const user = await createUser(userData)
 
-    res
-      .status(201)
-      .json({ message: 'User created successfully', user: newUser })
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      res.status(400).json({ message: error.message })
-    } else {
-      res.status(500).json({ message: 'An unknown error occurred' })
-    }
-  }
-}
+  res.status(CREATED).json({
+    message: 'User created successfully',
+    user,
+  })
+})
 
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body

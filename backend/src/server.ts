@@ -1,19 +1,22 @@
 import 'dotenv/config'
-import express, { Application } from 'express'
+import express, { Application, Request, Response, NextFunction } from 'express'
 import { corsMiddleware } from './middlewares/cors'
 import cookieParser from 'cookie-parser'
 import { AppRouter } from './router'
 import { connectToDatabase } from './config/database'
 import { env } from './config/env'
+import { errorHandler } from './middlewares/errorHandler'
 
-const app: Application = express()
+const app = express()
 
-app.use(corsMiddleware)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-AppRouter.use(cookieParser())
+app.use(corsMiddleware)
+app.use(cookieParser())
 
 app.use('/api', AppRouter)
+
+app.use(errorHandler)
 
 const startServer = async () => {
   const PORT = env.port

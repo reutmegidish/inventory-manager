@@ -8,10 +8,10 @@ import {
   Alert,
   FormControl,
 } from '@mui/material'
-import { UseLogin } from './UseLogin'
+import { useLogin } from './UseLogin'
 
 export const Login: React.FC = () => {
-  const { formData, loading, error, handleSubmit, handleChange } = UseLogin()
+  const { formData, loading, error, handleSubmit, handleChange } = useLogin()
 
   return (
     <Box>

@@ -1,4 +1,11 @@
-import { GetUserParams, IUser } from './user.interface'
+import { CONFLICT } from '../../constants/http'
+import { appAssert } from '../../utils/appAssert'
+import {
+  GetUserParams,
+  IUser,
+  IUserCreate,
+  IUserWithoutPassword,
+} from './user.interface'
 import { User } from './user.model'
 
 export const getUserByEmail = async (email: string): Promise<IUser | null> => {
@@ -12,33 +19,12 @@ export const getUserByEmail = async (email: string): Promise<IUser | null> => {
 }
 
 export const createUser = async (
-  email: string,
-  password: string,
-  role: 'admin' | 'employee' | 'buyer',
-  address: string,
-  phone: string
-  // employeeFields: Array<{ store: string }> = [],
-  // buyerFields: { address: string | null; phone: string | null } = {
-  //   address: null,
-  //   phone: null,
-  // }
-): Promise<IUser> => {
-  const existingUser = await User.findOne({ email })
-  if (existingUser) {
-    throw new Error('Email already exists')
-  }
+  data: IUserCreate
+): Promise<IUserWithoutPassword> => {
+  const existingUser = await User.exists({ email: data.email })
+  appAssert(!existingUser, CONFLICT, 'Email already exists')
 
-  const newUser = new User({
-    email,
-    password,
-    role,
-    address,
-    phone,
-    // employeeFields,
-    // buyerFields,
-  })
-
-  await newUser.save()
+  const newUser = (await User.create(data)).omitPassword()
   return newUser
 }
 

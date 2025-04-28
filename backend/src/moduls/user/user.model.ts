@@ -1,37 +1,71 @@
 import { Schema, model } from 'mongoose'
 import { IUser } from './user.interface'
+import { compareValue, hashValue } from '../../utils/bcrypt'
 
-const userSchema = new Schema<IUser>({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
+export interface UserDocument extends IUser, Document {
+  comparePassword: (password: string) => Promise<boolean>
+  omitPassword: () => Omit<UserDocument, 'password'>
+}
+
+const userSchema = new Schema<UserDocument>(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+      lowercase: true,
+    },
+    role: {
+      type: String,
+      enum: ['admin', 'employee', 'buyer'],
+      required: true,
+    },
+    address: {
+      type: String,
+      default: '',
+    },
+    phone: {
+      type: String,
+      default: '',
+    },
+    active: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  // name: {
-  //   type: String,
-  //   required: true,
-  // },
-  role: {
-    type: String,
-    enum: ['admin', 'employee', 'buyer'],
-    required: true,
-  },
-  address: {
-    type: String,
-    default: true,
-  },
-  phone: {
-    type: String,
-    default: true,
-  },
-  active: {
-    type: Boolean,
-    default: true,
-  },
+  {
+    timestamps: true,
+  }
+)
+
+userSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    this.password = await hashValue(this.password)
+  }
+  next()
 })
 
-export const User = model<IUser>('User', userSchema)
+userSchema.methods.comparePassword = async function (
+  password: string
+): Promise<boolean> {
+  return compareValue(password, this.password)
+}
+
+userSchema.methods.omitPassword = function (): Omit<UserDocument, 'password'> {
+  const user = this.toObject()
+  delete user.password
+  return user
+}
+
+export const User = model<UserDocument>('User', userSchema)

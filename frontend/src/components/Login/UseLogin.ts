@@ -8,7 +8,7 @@ export interface ILoginFormData {
   password: string
 }
 
-export const UseLogin = () => {
+export const useLogin = () => {
   const [formData, setFormData] = useState<ILoginFormData>({
     email: '',
     password: '',
