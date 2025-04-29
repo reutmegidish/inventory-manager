@@ -1,0 +1,7 @@
+export const MSG_USER_CREATED = 'User created successfully'
+export const MSG_INVALID_EMAIL_OR_PASSWORD = 'Invalid email or password'
+export const MSG_NO_USERS_FOUND = 'No users found'
+export const MSG_ERR_FETCHING_USERS = 'Error fetching users'
+export const MSG_USER_UPDATED = 'User updated successfully'
+export const MSG_USER_EXISTS = 'User already exists'
+export const MSG_USER_NOT_FOUND = 'User not found'

@@ -7,29 +7,25 @@ import {
   IUserPublic,
 } from './user.interface'
 import { User } from './user.model'
-
-export const getUserByEmail = async (email: string): Promise<IUser | null> => {
-  try {
-    const user = await User.findOne({ email })
-    return user
-  } catch (error) {
-    console.error('Error in getUserByEmail:', error)
-    throw error
-  }
-}
-
-export const checkEmailExists = async (email: string): Promise<boolean> => {
-  const existingUser = await User.exists({ email })
-  return !!existingUser
-}
+import { checkEmailExists, findUsers } from './user.repository'
 
 export const createUser = async (data: IUserCreate): Promise<IUserPublic> => {
   const isExistingUser = await checkEmailExists(data.email)
-
   appAssert(!isExistingUser, CONFLICT, 'Email already exists')
 
   const newUser = (await User.create(data)).toJSON()
   return newUser
+}
+
+const buildQueryParams = ({ name, role, active }: GetUserParams) => {
+  const params: any = {}
+
+  if (name) params.name = { $regex: `.*${name}.*`, $options: 'i' }
+  if (role) params.role = role
+  if (active) {
+    params.active = active === 'true' ? true : false
+  }
+  return params
 }
 
 export const getUsers = async ({
@@ -37,21 +33,9 @@ export const getUsers = async ({
   role,
   active,
 }: GetUserParams): Promise<IUser[]> => {
-  try {
-    const params: any = {}
-
-    if (name) params.name = { $regex: `.*${name}.*`, $options: 'i' }
-    if (role) params.role = role
-    if (active) {
-      params.active = active === 'true' ? true : false
-    }
-
-    const users = await User.find(params)
-    return users
-  } catch (error) {
-    console.error('Error in getUsers:', error)
-    throw error
-  }
+  const params = buildQueryParams({ name, role, active })
+  const users = await findUsers(params)
+  return users
 }
 
 export const updateUserById = async (
