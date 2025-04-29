@@ -1,25 +1,31 @@
 import { Request, Response } from 'express'
-import {
-  createUser,
-  getUserByEmail,
-  getUsers,
-  updateUserById,
-} from './user.service'
+import { createUser, getUsers, updateUserById } from './user.service'
 import { GetUserParams } from './user.interface'
 import { catchErrors } from '../../utils/catchErrors'
-import { CREATED } from '../../constants/http'
+import { CREATED, UNAUTHORIZED, OK } from '../../constants/http'
 import { addUserSchema } from './user.schema'
+import {
+  MSG_INVALID_EMAIL_OR_PASSWORD,
+  MSG_USER_CREATED,
+} from './user.messages'
+import { assert } from 'console'
+import { getUserByEmail } from './user.repository'
 
 export const addUser = catchErrors(async (req, res) => {
-  const request = addUserSchema.parse(req.body)
-
-  const { confirmPassword, ...userData } = request
+  const { confirmPassword, ...userData } = addUserSchema.parse(req.body)
   const user = await createUser(userData)
 
   res.status(CREATED).json({
-    message: 'User created successfully',
+    message: MSG_USER_CREATED,
     user,
   })
+})
+
+export const getMany = catchErrors(async (req, res) => {
+  const { name, role, active } = req.query as GetUserParams
+  const users = await getUsers({ name, role, active })
+
+  res.status(OK).json(users)
 })
 
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
@@ -27,9 +33,10 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
   try {
     const user = await getUserByEmail(email)
+    assert(!user || user.password !== password)
 
     if (!user || user.password !== password) {
-      res.status(401).json({ message: 'Invalid username or password' })
+      res.status(UNAUTHORIZED).json({ message: MSG_INVALID_EMAIL_OR_PASSWORD })
       return
     }
 
@@ -56,16 +63,6 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     } else {
       res.status(500).json({ message: 'An unexpected error occurred' })
     }
-  }
-}
-
-export const getMany = async (_req: Request, res: Response): Promise<void> => {
-  try {
-    const { name, role, active } = _req.query as GetUserParams
-    const users = await getUsers({ name, role, active })
-    res.json(users)
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching users' })
   }
 }
 
