@@ -6,12 +6,12 @@ import {
   updateUserById,
 } from './user.service'
 import { GetUserParams } from './user.interface'
-import { zodSchema } from './user.zod'
 import { catchErrors } from '../../utils/catchErrors'
 import { CREATED } from '../../constants/http'
+import { addUserSchema } from './user.schema'
 
 export const addUser = catchErrors(async (req, res) => {
-  const request = zodSchema.parse(req.body)
+  const request = addUserSchema.parse(req.body)
 
   const { confirmPassword, ...userData } = request
   const user = await createUser(userData)

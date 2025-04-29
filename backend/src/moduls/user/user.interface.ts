@@ -14,6 +14,8 @@ export interface IUser {
 
 export type IUserCreate = Creatable<IUser>
 
+export type IUserLogin = Pick<IUser, 'email' | 'password'>
+
 export type IUserPublic = Omit<IUser, 'password'>
 export interface GetUserParams {
   name?: string
