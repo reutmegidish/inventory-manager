@@ -4,7 +4,7 @@ import {
   GetUserParams,
   IUser,
   IUserCreate,
-  IUserWithoutPassword,
+  IUserPublic,
 } from './user.interface'
 import { User } from './user.model'
 
@@ -18,13 +18,17 @@ export const getUserByEmail = async (email: string): Promise<IUser | null> => {
   }
 }
 
-export const createUser = async (
-  data: IUserCreate
-): Promise<IUserWithoutPassword> => {
-  const existingUser = await User.exists({ email: data.email })
-  appAssert(!existingUser, CONFLICT, 'Email already exists')
+export const checkEmailExists = async (email: string): Promise<boolean> => {
+  const existingUser = await User.exists({ email })
+  return !!existingUser
+}
 
-  const newUser = (await User.create(data)).omitPassword()
+export const createUser = async (data: IUserCreate): Promise<IUserPublic> => {
+  const isExistingUser = await checkEmailExists(data.email)
+
+  appAssert(!isExistingUser, CONFLICT, 'Email already exists')
+
+  const newUser = (await User.create(data)).toJSON()
   return newUser
 }
 

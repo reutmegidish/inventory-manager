@@ -1,10 +1,8 @@
 import { Schema, model } from 'mongoose'
 import { IUser } from './user.interface'
 import { compareValue, hashValue } from '../../utils/bcrypt'
-
 export interface UserDocument extends IUser, Document {
   comparePassword: (password: string) => Promise<boolean>
-  omitPassword: () => Omit<UserDocument, 'password'>
 }
 
 const userSchema = new Schema<UserDocument>(
@@ -46,6 +44,13 @@ const userSchema = new Schema<UserDocument>(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform(doc, ret) {
+        delete ret.password
+        delete ret.__v
+        return ret
+      },
+    },
   }
 )
 
@@ -60,12 +65,6 @@ userSchema.methods.comparePassword = async function (
   password: string
 ): Promise<boolean> {
   return compareValue(password, this.password)
-}
-
-userSchema.methods.omitPassword = function (): Omit<UserDocument, 'password'> {
-  const user = this.toObject()
-  delete user.password
-  return user
 }
 
 export const User = model<UserDocument>('User', userSchema)
