@@ -14,3 +14,14 @@ export const getUserByEmail = async (email: string): Promise<IUser | null> => {
 export const findUsers = async (params: any) => {
   return await User.find(params)
 }
+
+export const findByIdAndUpdate = async (
+  id: string,
+  updateData: Partial<IUser>
+) => {
+  return await User.findByIdAndUpdate(
+    id,
+    { $set: updateData },
+    { new: true, runValidators: true }
+  )
+}
