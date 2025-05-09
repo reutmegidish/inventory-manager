@@ -2,15 +2,16 @@ import React from 'react'
 import { Category as CategoryIcon } from '@mui/icons-material'
 import { Dashboard } from '../../../../components/Dashboard/Dashboard'
 import { categoriesConstants } from './utils/categoriesConstants'
-import { useCategoriesManagementPage } from './useCategoriesManagementPage'
 import { ICategories } from './ICategories.interface'
 import { columns, getRows } from './utils/categoriesTableConfig'
+import { useManagementPage } from '../../../../hooks/useManagementPage'
+import { fetchCategories } from '../../../../services'
 
 export const CategoriesManagementPage: React.FC = () => {
   const { TITLE, SEARCH_PLACEHOLDER, ADD_BUTTON_TEXT } = categoriesConstants
 
   const {
-    Categories,
+    data: Categories,
     searchQuery,
     setSearchQuery,
     statusFilter,
@@ -19,7 +20,9 @@ export const CategoriesManagementPage: React.FC = () => {
     error,
     setIsTriggerFetch,
     setIsOnRefresh,
-  } = useCategoriesManagementPage()
+  } = useManagementPage<ICategories>({
+    fetchData: fetchCategories,
+  })
 
   const rows = getRows(Categories)
 

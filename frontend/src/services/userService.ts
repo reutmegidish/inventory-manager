@@ -5,7 +5,7 @@ const API_BASE_URL = `${config.apiUrl}/user`
 
 interface Filter {
   searchQuery: string
-  roleFilter: string
+  roleFilter?: string
   statusFilter: string
 }
 
