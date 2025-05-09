@@ -1,37 +1,53 @@
 import { useEffect, useState } from 'react'
-import { ICategories } from './ICategories.interface'
-import { fetchCategories } from '../../../../services'
 
-export const useCategoriesManagementPage = () => {
-  const [Categories, setCategories] = useState<ICategories[]>([])
+interface ManagementPageProps<T> {
+  fetchData: ({
+    searchQuery,
+    roleFilter,
+    statusFilter,
+  }: LoadUsersProps) => Promise<T[]>
+  initialRoleFilter?: string
+}
+
+interface LoadUsersProps {
+  searchQuery: string
+  roleFilter?: string | undefined
+  statusFilter: string
+}
+
+export const useManagementPage = <T>({
+  fetchData,
+  initialRoleFilter = undefined,
+}: ManagementPageProps<T>) => {
+  const [data, setData] = useState<T[]>([])
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [statusFilter, setStatusFilter] = useState<string>('active')
+  const [roleFilter, setRoleFilter] = useState<string | undefined>(
+    initialRoleFilter
+  )
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>('')
   const [isOnRefresh, setIsOnRefresh] = useState<boolean>(true)
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false)
   const [isInit, setIsInit] = useState<boolean>(false)
 
-  interface ILoadCategoriesProps {
-    searchQuery: string
-    statusFilter: string
-  }
-
-  const loadCategories = async ({
+  const loadData = async ({
     searchQuery,
+    roleFilter,
     statusFilter,
-  }: ILoadCategoriesProps) => {
+  }: LoadUsersProps) => {
     setLoading(true)
     try {
-      const fetchedCategories = await fetchCategories({
+      const fetchedData = await fetchData({
         searchQuery,
         statusFilter,
+        roleFilter,
       })
       setError('')
-      return fetchedCategories
+      return fetchedData
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.error('Error fetching Categories:', error)
+      console.error('Error fetching data:', error)
       setError(error.message)
     } finally {
       setLoading(false)
@@ -41,18 +57,18 @@ export const useCategoriesManagementPage = () => {
   useEffect(() => {
     if (!isInit && !isTriggerFetch && !isOnRefresh) return
 
-    const fetchAndSetCategories = async () => {
-      const fetchedCategories = await loadCategories({
+    const fetchAndSetData = async () => {
+      const fetchedData = await loadData({
         searchQuery,
+        roleFilter,
         statusFilter,
       })
-      if (fetchedCategories) setCategories(fetchedCategories)
+      if (fetchedData) setData(fetchedData)
       if (isTriggerFetch) setIsTriggerFetch(false)
       if (isInit) setIsInit(false)
       if (isOnRefresh) setIsOnRefresh(false)
     }
-    fetchAndSetCategories()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchAndSetData()
   }, [isInit, isTriggerFetch, isOnRefresh])
 
   useEffect(() => {
@@ -60,11 +76,13 @@ export const useCategoriesManagementPage = () => {
   }, [])
 
   return {
-    Categories,
+    data,
     searchQuery,
     setSearchQuery,
     statusFilter,
     setStatusFilter,
+    roleFilter,
+    setRoleFilter,
     loading,
     error,
     isTriggerFetch,

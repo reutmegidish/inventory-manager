@@ -2,15 +2,16 @@ import React from 'react'
 import { PersonOutline as PersonIcon } from '@mui/icons-material'
 import { userConstants } from './utils/userConstants'
 import { Dashboard } from '../../../../components/Dashboard/Dashboard'
-import { useUserManagementPage } from './useUserManagementPage'
 import { getRows, columns, User } from './utils/userTableConfig'
+import { fetchUsers } from '../../../../services'
+import { useManagementPage } from '../../../../hooks/useManagementPage'
 
 export const UserManagementPage: React.FC = () => {
   const { TITLE, SEARCH_PLACEHOLDER, FILTER_OPTION, ADD_BUTTON_TEXT } =
     userConstants
 
   const {
-    users,
+    data: users,
     searchQuery,
     setSearchQuery,
     roleFilter,
@@ -21,7 +22,10 @@ export const UserManagementPage: React.FC = () => {
     error,
     setIsTriggerFetch,
     setIsOnRefresh,
-  } = useUserManagementPage()
+  } = useManagementPage<User>({
+    fetchData: fetchUsers,
+    initialRoleFilter: 'all',
+  })
 
   const rows = getRows(users)
 

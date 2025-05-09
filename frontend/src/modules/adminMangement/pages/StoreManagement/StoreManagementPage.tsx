@@ -2,15 +2,16 @@ import React from 'react'
 import { Store as StoreIcon } from '@mui/icons-material'
 import { Dashboard } from '../../../../components/Dashboard/Dashboard'
 import { storeConstants } from './utils/storeConstants'
-import { useStoreManagementPage } from './useStoreManagementPage'
 import { IStore } from './IStore.interface'
 import { columns, getRows } from './utils/StoreTableConfig'
+import { useManagementPage } from '../../../../hooks/useManagementPage'
+import { fetchStores } from '../../../../services'
 
 export const StoreManagementPage: React.FC = () => {
   const { TITLE, SEARCH_PLACEHOLDER, ADD_BUTTON_TEXT } = storeConstants
 
   const {
-    Store,
+    data: Store,
     searchQuery,
     setSearchQuery,
     statusFilter,
@@ -19,7 +20,9 @@ export const StoreManagementPage: React.FC = () => {
     error,
     setIsTriggerFetch,
     setIsOnRefresh,
-  } = useStoreManagementPage()
+  } = useManagementPage<IStore>({
+    fetchData: fetchStores,
+  })
 
   const rows = getRows(Store)
 
