@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Typography, IconButton, Button } from '@mui/material'
 import { Refresh as RefreshIcon, Add as AddIcon } from '@mui/icons-material'
-import { headerStyles } from './headerStyles'
 import { useNavigate } from 'react-router-dom'
+import { dashboardHeaderStyles } from './styles'
 
 export interface DashboardHeaderProps {
   dashboardHeaderTitle: string
@@ -20,10 +20,12 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   const navigate = useNavigate()
 
   return (
-    <Box sx={headerStyles.container}>
-      <Box sx={headerStyles.titleWrapper}>
-        <Box sx={headerStyles.icon}>{dashboardHeaderIcon}</Box>
-        <Typography sx={headerStyles.title}>{dashboardHeaderTitle}</Typography>
+    <Box sx={dashboardHeaderStyles.container}>
+      <Box sx={dashboardHeaderStyles.titleContainer}>
+        <Box sx={dashboardHeaderStyles.icon}>{dashboardHeaderIcon}</Box>
+        <Typography sx={dashboardHeaderStyles.title}>
+          {dashboardHeaderTitle}
+        </Typography>
       </Box>
 
       {addButtonText && setIsOnRefresh && (
@@ -33,6 +35,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               navigate('add')
             }}
             startIcon={<AddIcon />}
+            sx={dashboardHeaderStyles.addButton}
           >
             {addButtonText}
           </Button>
@@ -41,9 +44,9 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             onClick={() => {
               setIsOnRefresh(true)
             }}
-            sx={headerStyles.refreshButton}
+            sx={dashboardHeaderStyles.actionButton}
           >
-            <RefreshIcon sx={headerStyles.refreshIcon} />
+            <RefreshIcon />
           </IconButton>
         </Box>
       )}

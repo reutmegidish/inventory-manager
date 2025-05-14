@@ -8,6 +8,7 @@ import {
   Select,
   MenuItem,
   Button,
+  Box,
 } from '@mui/material'
 import {
   Search as SearchIcon,
@@ -15,6 +16,7 @@ import {
   PowerSettingsNew as PowerIcon,
 } from '@mui/icons-material'
 import { STATUS_OPTIONS } from './const'
+import { dataTableFiltersStyles } from './styles'
 
 export interface IFilterOption {
   value: string
@@ -47,65 +49,89 @@ export const DataTableFilters: React.FC<IDataTableFiltersProps> = ({
   setStatusFilter,
 }) => {
   return (
-    <Stack direction="row" spacing={2}>
-      <TextField
-        placeholder={placeholder}
-        value={searchQuery}
-        onChange={(e) => {
-          setSearchQuery(e.target.value)
-        }}
-        slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
+    <Box sx={dataTableFiltersStyles.container}>
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        // sx={dashboardStyles.filtersStack}
+      >
+        <TextField
+          size="small"
+          placeholder={placeholder}
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value)
+          }}
+          sx={dataTableFiltersStyles.searchField}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
 
-      {roleLabel && setRoleFilter && (
-        <FormControl>
-          <InputLabel>{roleLabel}</InputLabel>
+        {roleLabel && setRoleFilter && (
+          <FormControl size="small" sx={dataTableFiltersStyles.filterSelect}>
+            <InputLabel>{roleLabel}</InputLabel>
+            <Select
+              value={roleFilter}
+              label={roleLabel}
+              onChange={(e) => setRoleFilter(e.target.value)}
+              startAdornment={
+                <FilterListIcon
+                  sx={{ mr: 1, color: 'rgba(255, 255, 255, 0.7)' }}
+                />
+              }
+              MenuProps={{
+                PaperProps: {
+                  sx: dataTableFiltersStyles.filterMenuItem,
+                },
+              }}
+            >
+              {filterOptions?.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
+
+        <FormControl size="small" sx={dataTableFiltersStyles.filterSelect}>
+          <InputLabel>{STATUS_OPTIONS.label}</InputLabel>
           <Select
-            value={roleFilter}
-            label={roleLabel}
-            onChange={(e) => setRoleFilter(e.target.value)}
-            startAdornment={
-              <FilterListIcon
-                sx={{ mr: 1, color: 'rgba(255, 255, 255, 0.7)' }}
-              />
-            }
+            value={statusFilter}
+            label={STATUS_OPTIONS.label}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            startAdornment={<PowerIcon sx={{ mr: 1 }} />}
+            MenuProps={{
+              PaperProps: {
+                sx: dataTableFiltersStyles.filterMenuItem,
+              },
+            }}
           >
-            {filterOptions?.map((option) => (
+            {STATUS_OPTIONS.options.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
-      )}
 
-      <FormControl>
-        <InputLabel>{STATUS_OPTIONS.label}</InputLabel>
-        <Select
-          value={statusFilter}
-          label={STATUS_OPTIONS.label}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          startAdornment={
-            <PowerIcon sx={{ mr: 1, color: 'rgba(255, 255, 255, 0.7)' }} />
-          }
+        <Button
+          variant="contained"
+          onClick={() => setIsTriggerFetch(true)}
+          startIcon={<SearchIcon />}
+          sx={dataTableFiltersStyles.filterButton}
         >
-          {STATUS_OPTIONS.options.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <Button onClick={() => setIsTriggerFetch(true)}>Search</Button>
-    </Stack>
+          Search
+        </Button>
+      </Stack>
+    </Box>
   )
 }

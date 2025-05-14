@@ -2,7 +2,7 @@ import * as React from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Paper from '@mui/material/Paper'
 import { Box } from '@mui/material'
-import { tableStyles } from '../tableStyles'
+import { dataTableStyles } from './styles'
 
 export interface DataTableProps<T> {
   rows: T[]
@@ -19,8 +19,8 @@ export const DataTable = <T extends {}>({
   error,
 }: DataTableProps<T>) => {
   return (
-    <Box sx={tableStyles.container}>
-      <Paper sx={tableStyles.paper}>
+    <Box sx={dataTableStyles.container}>
+      <Paper sx={dataTableStyles.paper}>
         {loading ? (
           <div>loading..</div>
         ) : error ? (
@@ -29,7 +29,7 @@ export const DataTable = <T extends {}>({
           <DataGrid
             columns={columns}
             rows={rows}
-            sx={tableStyles.dataGrid}
+            sx={dataTableStyles.dataGrid}
             disableRowSelectionOnClick
             hideFooter
           />

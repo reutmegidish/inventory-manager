@@ -30,6 +30,8 @@ const chipBase = {
   gap: 1,
   padding: '4px 8px',
   borderRadius: '16px',
+  width: 'fit-content',
+  minWidth: 'auto',
 }
 
 export const tableStyles = {
@@ -186,6 +188,7 @@ export const tableStyles = {
     },
   },
   actionButton: {
+    marginBottom: '8px',
     color: 'white',
     transition: commonTransitions.smooth,
     '&:hover': {
@@ -193,7 +196,9 @@ export const tableStyles = {
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
     },
   },
+
   statusButton: (isActive: boolean) => ({
+    ...chipBase,
     background: isActive
       ? commonGradients.activeButtonGradient
       : commonGradients.deactiveButtonGradient,
